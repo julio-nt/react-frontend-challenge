@@ -17,10 +17,10 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
 
       const fullTextSearch = searchParamsToQuery(filters);
 
-      
       params.append('maxResults', filters.maxResults?.toString() || '30');
       params.append('printType', filters.printType || 'all');
       params.append('orderBy', filters.orderBy || 'relevance');
+      params.append('startIndex', filters.startIndex?.toString() || '0');
 
       params.append('q', fullTextSearch);
 
@@ -34,11 +34,22 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
     },
   });
 
+  const currentPage = filters?.startIndex
+    ? Math.floor(filters.startIndex / (filters.maxResults || 30)) + 1
+    : 1;
+
+  const pagination = {
+    totalItems: query.data?.totalItems || 0,
+    itemsPerPage: filters?.maxResults || 30,
+    currentPage,
+  };
+
   return {
     data: query.data,
-    isLoading: query.isPending,
+    isLoading: query.isLoading,
     isReloading: query.isRefetching,
     refetch: query.refetch,
+    pagination,
   };
 }
 

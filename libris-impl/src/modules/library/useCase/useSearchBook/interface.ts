@@ -13,6 +13,7 @@ export interface SearchBookFilter {
   printType?: 'all' | 'books' | 'magazines';
   orderBy?: 'relevance' | 'newest';
   maxResults?: number;
+  startIndex?: number;
 }
 
 export interface SearchBookResponse {

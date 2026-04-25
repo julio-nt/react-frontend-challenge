@@ -5,15 +5,20 @@ import Loading from '@shared/components/ui/loading';
 import BookItem from './BookItem';
 import { Search } from 'lucide-react';
 import { useUrlFilter } from '../useCase/useUrlFilter';
+import BookPagination from './Pagination';
 
 const BookList = () => {
   const { filters, setFilters } = useUrlFilter();
 
-  const { data, isLoading, isReloading, refetch } = useSearchBook({ filters });
+  const { data, isLoading, isReloading, refetch, pagination } = useSearchBook({ filters });
 
   useEffect(() => {
     refetch();
   }, [filters]);
+
+  function handlePageChange(startIndex: number) {
+    setFilters({ startIndex });
+  }
 
   return (
     <div>
@@ -32,10 +37,16 @@ const BookList = () => {
               <p>Faça uma busca para encontrar livros</p>
             </div>
           ) : (
-            <div className={`flex flex-wrap gap-4 ${isReloading ? 'blur' : ''}`}>
-              {data?.items?.map((book) => {
-                return <BookItem key={book.id} book={book} />;
-              })}
+            <div className={`${isReloading ? 'blur' : ''}`}>
+              <div className={`flex flex-wrap gap-4`}>
+                {data?.items?.map((book) => {
+                  return <BookItem key={book.id} book={book} />;
+                })}
+              </div>
+              <p className='text-muted-foreground text-sm'>
+                {pagination.totalItems} resultados encontrados
+              </p>
+              <BookPagination pagination={pagination} onPageChange={handlePageChange} />
             </div>
           )}
         </div>

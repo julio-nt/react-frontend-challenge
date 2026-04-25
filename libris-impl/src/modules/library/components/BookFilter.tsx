@@ -28,7 +28,7 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
       inauthor: '',
       intitle: '',
       inpublisher: '',
-      maxResults: 10,
+      maxResults: 30,
       orderBy: 'relevance',
       printType: 'all',
     },
@@ -36,23 +36,21 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
 
   const debouncedQ = useDebounce(formFilter.watch('q'), 500);
 
-  useEffect(() => {
-    if (debouncedQ) onFilter({ q: debouncedQ });
-  }, [debouncedQ]);
-
   const handleClear = () => {
     formFilter.setValue('q', '');
     formFilter.setValue('inauthor', '');
     formFilter.setValue('intitle', '');
     formFilter.setValue('inpublisher', '');
-    formFilter.setValue('maxResults', 10);
+    formFilter.setValue('maxResults', 30);
     formFilter.setValue('orderBy', 'relevance');
     formFilter.setValue('printType', 'all');
   };
 
-  function handleSearch() {
+  function handleSearch(q?: string) {
+    const qToUse = q || formFilter.getValues('q');
     onFilter({
-      q: formFilter.getValues('q'),
+      q: qToUse,
+      startIndex: 0,
     });
     setIsOpen(false);
   }
@@ -60,14 +58,15 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
   function handleDetailedSearch(values: SearchBookFilter) {
     onFilter({
       ...values,
-      // q: ' ',
-      // intitle: '',
       q: values.intitle || values.inauthor || values.inpublisher || ' ',
+      startIndex: 0,
     });
     setIsOpen(false);
   }
 
-  console.log(formFilter.watch());
+  useEffect(() => {
+    if (debouncedQ) handleSearch(debouncedQ);
+  }, [debouncedQ]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -77,7 +76,7 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
             <Button
               variant={'outline'}
               className='w-16 rounded-r-none rounded-l-none'
-              onClick={handleSearch}
+              onClick={() => handleSearch()}
             >
               <Search size={16} />
             </Button>
