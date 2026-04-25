@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import type { SearchBookRequest, SearchBookResponse } from './interface';
 import HttpBookApi from '@core/http';
 import { QueryKeys } from '@core/query/interface';
+import { adapter } from './adapter';
+import type { PaginatedBook } from '@modules/library/model/Book';
 
 export function useSearchBook({ skip, filters }: SearchBookRequest) {
   const query = useQuery({
@@ -31,7 +33,18 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
 
       const response = await HttpBookApi.get<SearchBookResponse>(url, params);
 
-      return response;
+      const adaptedItems = response.items?.map((item) => {
+        const { book } = adapter(item);
+        return book;
+      });
+
+      const adaptedResponse: PaginatedBook = {
+        kind: response.kind,
+        totalItems: response.totalItems,
+        items: adaptedItems || [],
+      };
+
+      return adaptedResponse;
     },
   });
 
@@ -46,7 +59,7 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
   };
 
   return {
-    data: query.data,
+    data: query.data?.items || [],
     isLoading: query.isLoading,
     isReloading: query.isRefetching,
     refetch: query.refetch,

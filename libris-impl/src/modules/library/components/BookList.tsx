@@ -31,7 +31,7 @@ const BookList = () => {
         </div>
       ) : (
         <div className='mt-6 space-y-2'>
-          {!data?.totalItems ? (
+          {!pagination?.totalItems ? (
             <div className='flex flex-col items-center text-muted-foreground gap-4 mt-8'>
               <Search size={48} />
               <p>Faça uma busca para encontrar livros</p>
@@ -39,7 +39,7 @@ const BookList = () => {
           ) : (
             <div className={`${isReloading ? 'blur' : ''}`}>
               <div className={`flex flex-wrap gap-4`}>
-                {data?.items?.map((book) => {
+                {data?.map((book) => {
                   return <BookItem key={book.id} book={book} />;
                 })}
               </div>

@@ -1,4 +1,4 @@
-import type { Book } from '@modules/library/model/Book';
+import type { BookApi } from '@modules/library/model/BookApi';
 
 export interface SearchBookRequest {
   skip?: boolean;
@@ -19,5 +19,5 @@ export interface SearchBookFilter {
 export interface SearchBookResponse {
   kind: string;
   totalItems: number;
-  items: Book[];
+  items: BookApi[];
 }
