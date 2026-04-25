@@ -20,19 +20,11 @@ const Sidebar = ({ user }: SidebarProps) => {
       onClick: () => goTo('/'),
     },
     {
-      label: 'Mais Populares',
-      onClick: () => goTo('/'),
-    },
-    {
-      label: 'Novos Lançamentos',
+      label: 'Meus Livros',
       onClick: () => goTo('/'),
     },
     {
       label: 'Minhas Categorias',
-      onClick: () => goTo('/'),
-    },
-    {
-      label: 'Meus Livros',
       onClick: () => goTo('/'),
     },
   ];
@@ -45,7 +37,7 @@ const Sidebar = ({ user }: SidebarProps) => {
   return (
     <AppSidebar>
       <SidebarHeader className='border-b'>
-        <p className='text-lg font-bold'>Libris</p>
+        <p className='text-lg font-bold'>Menu</p>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

@@ -1,7 +1,7 @@
 import { createRoute } from '@tanstack/react-router';
 
 import PrivateLayout from '@modules/_layout';
-import Home from '@modules/home/pages';
+import Home from '@modules/library/pages/MyList';
 import { rootRoute } from './root';
 
 const privateLayoutRoute = createRoute({

@@ -11,10 +11,6 @@ const Navbar = () => {
         <img src={logo} alt='Libris Logo' className={'h-8 inline-block'} />
         <span className={'font-bold text-lg'}>Libris</span>
       </div>
-      <div className={'space-x-4'}>
-        <button>Minha Biblioteca</button>
-        <button>Explorar</button>
-      </div>
     </nav>
   );
 };
