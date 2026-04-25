@@ -1,7 +1,7 @@
 import { createRoute } from '@tanstack/react-router';
 
 import PrivateLayout from '@modules/_layout';
-import Home from '@modules/library/pages/MyList';
+import Home from '@modules/library/pages/SearchList';
 import { rootRoute } from './root';
 import type { SearchBookFilter } from '@modules/library/useCase/useSearchBook/interface';
 

@@ -8,9 +8,9 @@ const Component = () => {
   );
 };
 
-const MyListPage = {
+const SearchPage = {
   path: '/',
   Component,
 };
 
-export default MyListPage;
+export default SearchPage;

@@ -7,7 +7,9 @@ export function useUrlFilter() {
 
   function setFilters(newFilters: Partial<SearchBookFilter>) {
     navigate({
-      search: (prev: any) => ({ ...prev, ...newFilters }),
+      search: (prev: SearchBookFilter) => {
+        return { ...prev, ...newFilters };
+      },
     });
   }
 

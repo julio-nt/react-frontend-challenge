@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import type { SearchBookRequest, SearchBookResponse } from './interface';
 import HttpBookApi from '@core/http';
+import { QueryKeys } from '@core/query/interface';
 
 export function useSearchBook({ skip, filters }: SearchBookRequest) {
   const query = useQuery({
-    queryKey: ['search-book', filters],
+    queryKey: [QueryKeys.SEARCH_BOOK_LIST],
     enabled: !skip && !!filters,
     refetchOnWindowFocus: false,
     retry: false,
