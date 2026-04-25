@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSearchBook } from '../useCase/useSearchBook';
-import type { SearchBookFilter } from '../useCase/useSearchBook/interface';
 import BookFilter from './BookFilter';
 import Loading from '@shared/components/ui/loading';
 import BookItem from './BookItem';
 import { Search } from 'lucide-react';
+import { useUrlFilter } from '../useCase/useUrlFilter';
 
 const BookList = () => {
-  const [filters, setFilters] = useState<SearchBookFilter>();
+  const { filters, setFilters } = useUrlFilter();
 
   const { data, isLoading, isReloading, refetch } = useSearchBook({ filters });
 
