@@ -1,23 +1,16 @@
 import { SidebarTrigger, useSidebar } from '@shared/components/ui/sidebar';
 import logo from '/logo.png';
 import { Moon, Sun } from 'lucide-react';
-import { useState } from 'react';
+import { useThemeStore } from '../storage/theme';
 
 const Navbar = () => {
   const { open } = useSidebar();
 
-  const initialDarkMode = document.documentElement.classList.contains('dark');
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(initialDarkMode);
+  const { toggleTheme, theme } = useThemeStore();
+  const isDarkMode = theme === 'dark';
 
   function handleThemeToggle() {
-    if (isDarkMode) {
-      document.documentElement.classList.remove('dark');
-      setIsDarkMode(false);
-      return;
-    }
-
-    document.documentElement.classList.add('dark');
-    setIsDarkMode(true);
+    toggleTheme(isDarkMode ? 'light' : 'dark');
   }
 
   const IconThemeToUse = isDarkMode ? Sun : Moon;
