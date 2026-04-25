@@ -4,11 +4,12 @@ import type { SearchBookFilter } from '../useCase/useSearchBook/interface';
 import BookFilter from './BookFilter';
 import Loading from '@shared/components/ui/loading';
 import BookItem from './BookItem';
+import { Search } from 'lucide-react';
 
 const BookList = () => {
   const [filters, setFilters] = useState<SearchBookFilter>();
 
-  const { data, isLoading, refetch } = useSearchBook({ filters });
+  const { data, isLoading, isReloading, refetch } = useSearchBook({ filters });
 
   useEffect(() => {
     refetch();
@@ -17,24 +18,28 @@ const BookList = () => {
   return (
     <div>
       <BookFilter onFilter={setFilters} />
-      {isLoading && (
-        <div className='flex flex-col items-center gap-4 mt-8'>
+
+      {isLoading && !isReloading ? (
+        <div className='flex flex-col items-center gap-4 mt-8 text-muted-foreground'>
           <Loading size={42} />
           <p>Carregando resultados...</p>
         </div>
-      )}
-
-      <div className='mt-6 space-y-2'>
-        {data?.totalItems && (
-          <p className='text-muted-foreground'>{data?.totalItems} resultados encontrados</p>
-        )}
-
-        <div className='flex flex-wrap gap-4'>
-          {data?.items?.map((book) => {
-            return <BookItem key={book.id} book={book} />;
-          })}
+      ) : (
+        <div className='mt-6 space-y-2'>
+          {!data?.totalItems ? (
+            <div className='flex flex-col items-center text-muted-foreground gap-4 mt-8'>
+              <Search size={48} />
+              <p>Faça uma busca para encontrar livros</p>
+            </div>
+          ) : (
+            <div className={`flex flex-wrap gap-4 ${isReloading ? 'blur' : ''}`}>
+              {data?.items?.map((book) => {
+                return <BookItem key={book.id} book={book} />;
+              })}
+            </div>
+          )}
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -18,19 +18,15 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
       const fullTextSearch = searchParamsToQuery(filters);
 
       
-      params.append('maxResults', '30');
-      params.append('printType', 'books');
-      // params.append('projection', 'lite');
+      params.append('maxResults', filters.maxResults?.toString() || '30');
+      params.append('printType', filters.printType || 'all');
+      params.append('orderBy', filters.orderBy || 'relevance');
 
       params.append('q', fullTextSearch);
 
       if (filters.intitle) params.append('intitle', filters.intitle);
       if (filters.inauthor) params.append('inauthor', filters.inauthor);
       if (filters.inpublisher) params.append('inpublisher', filters.inpublisher);
-      if (filters.subject) params.append('subject', filters.subject);
-      if (filters.isbn) params.append('isbn', filters.isbn);
-      if (filters.lccn) params.append('lccn', filters.lccn);
-      if (filters.oclc) params.append('oclc', filters.oclc);
 
       const response = await HttpBookApi.get<SearchBookResponse>(url, params);
 
@@ -52,10 +48,6 @@ function searchParamsToQuery(params: SearchBookRequest['filters']) {
   if (params?.intitle) extraParams += `+intitle:${params.intitle}`;
   if (params?.inauthor) extraParams += `+inauthor:${params.inauthor}`;
   if (params?.inpublisher) extraParams += `+inpublisher:${params.inpublisher}`;
-  if (params?.subject) extraParams += `+subject:${params.subject}`;
-  if (params?.isbn) extraParams += `+isbn:${params.isbn}`;
-  if (params?.lccn) extraParams += `+lccn:${params.lccn}`;
-  if (params?.oclc) extraParams += `+oclc:${params.oclc}`;
 
   return `${extraParams}`;
 }

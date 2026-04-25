@@ -10,10 +10,9 @@ export interface SearchBookFilter {
   intitle?: string;
   inauthor?: string;
   inpublisher?: string;
-  subject?: string;
-  isbn?: string;
-  lccn?: string;
-  oclc?: string;
+  printType?: 'all' | 'books' | 'magazines';
+  orderBy?: 'relevance' | 'newest';
+  maxResults?: number;
 }
 
 export interface SearchBookResponse {

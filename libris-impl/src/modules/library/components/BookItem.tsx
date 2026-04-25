@@ -1,3 +1,4 @@
+import { formatDate } from '@shared/util/date';
 import type { Book } from '../model/Book';
 
 interface BookItemProps {
@@ -25,6 +26,9 @@ const BookItem = ({ book }: BookItemProps) => {
             ? 'Sem Autor'
             : `Autor${book.volumeInfo.authors?.length > 1 ? 'es' : ''}: ${book.volumeInfo.authors?.join(', ')}`}
         </p>
+        {book.volumeInfo.publishedDate && (
+          <p className='text-xs'>Publicado: {formatDate(book.volumeInfo.publishedDate)}</p>
+        )}
         <p className='mt-4'>R$ {bookPrice?.toFixed(2)}</p>
       </div>
     </div>
