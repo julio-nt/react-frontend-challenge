@@ -3,6 +3,7 @@ import { useSearchBook } from '../useCase/useSearchBook';
 import type { SearchBookFilter } from '../useCase/useSearchBook/interface';
 import BookFilter from './BookFilter';
 import Loading from '@shared/components/ui/loading';
+import BookItem from './BookItem';
 
 const BookList = () => {
   const [filters, setFilters] = useState<SearchBookFilter>();
@@ -23,13 +24,17 @@ const BookList = () => {
         </div>
       )}
 
-      {data?.items?.map((book) => {
-        return (
-          <div>
-            <p>{book.volumeInfo.title}</p>
-          </div>
-        );
-      })}
+      <div className='mt-6 space-y-2'>
+        {data?.totalItems && (
+          <p className='text-muted-foreground'>{data?.totalItems} resultados encontrados</p>
+        )}
+
+        <div className='flex flex-wrap gap-4'>
+          {data?.items?.map((book) => {
+            return <BookItem key={book.id} book={book} />;
+          })}
+        </div>
+      </div>
     </div>
   );
 };

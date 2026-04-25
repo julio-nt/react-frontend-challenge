@@ -11,12 +11,15 @@ import type { SearchBookFilter } from '../useCase/useSearchBook/interface';
 import ControlledInput from '@shared/components/controlled/ControlledInput';
 import { Search } from 'lucide-react';
 import { Button } from '@shared/components/ui/button';
+import { useState } from 'react';
 
 interface BookFilterProps {
   onFilter: (filters: SearchBookFilter) => void;
 }
 
 const BookFilter = ({ onFilter }: BookFilterProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const formFilter = useForm<SearchBookFilter>({
     defaultValues: {
       q: '',
@@ -31,32 +34,33 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
   });
 
   const handleClear = () => {
-    formFilter.reset({});
+    formFilter.setValue('q', '');
+    formFilter.setValue('inauthor', '');
+    formFilter.setValue('intitle', '');
+    formFilter.setValue('inpublisher', '');
+    formFilter.setValue('isbn', '');
+    formFilter.setValue('lccn', '');
+    formFilter.setValue('oclc', '');
+    formFilter.setValue('subject', '');
   };
 
   function handleSearch() {
     onFilter({
       q: formFilter.getValues('q'),
     });
+    setIsOpen(false);
   }
 
   function handleFilter(values: SearchBookFilter) {
     onFilter({
       ...values,
-      q:
-        values.intitle ||
-        values.inauthor ||
-        values.inpublisher ||
-        values.isbn ||
-        values.lccn ||
-        values.oclc ||
-        values.subject ||
-        values.q,
+      q: ' ',
     });
+    setIsOpen(false);
   }
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <div>
         <div className='relative'>
           <div className='absolute right-0 bottom-0 flex'>
@@ -71,6 +75,7 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
           </div>
           <ControlledInput label='Faça uma busca' name='q' control={formFilter.control} />
         </div>
+
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Pesquisar por livros</DialogTitle>
