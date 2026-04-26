@@ -71,10 +71,9 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
       return;
     }
 
-    formFilter.setValue('q', values.intitle || values.inauthor || values.inpublisher || ' ');
     onFilter({
       ...values,
-      q: values.intitle || values.inauthor || values.inpublisher || ' ',
+      q: ' ',
     });
     setIsOpen(false);
   }

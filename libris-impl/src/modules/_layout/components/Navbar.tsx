@@ -17,7 +17,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`flex items-center justify-between w-full h-16 border-b px-4 ${open ? 'pl-68' : ''} transition-all`}
+      className={`flex items-center justify-between w-full h-16 border-b px-4 ${open ? 'md:pl-68' : ''} transition-all`}
     >
       <div className='space-x-2'>
         <SidebarTrigger />
