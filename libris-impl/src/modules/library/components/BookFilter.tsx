@@ -14,6 +14,7 @@ import { Button } from '@shared/components/ui/button';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '@shared/hooks/use-debounce';
 import ControlledCombobox from '@shared/components/controlled/ControlledCombobox';
+import { useSearch } from '@tanstack/react-router';
 
 interface BookFilterProps {
   onFilter: (filters: SearchBookFilter) => void;
@@ -21,16 +22,19 @@ interface BookFilterProps {
 
 const BookFilter = ({ onFilter }: BookFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { inauthor, intitle, inpublisher, maxResults, orderBy, printType } = useSearch({
+    from: '/private/',
+  });
 
   const formFilter = useForm<SearchBookFilter>({
     defaultValues: {
       q: '',
-      inauthor: '',
-      intitle: '',
-      inpublisher: '',
-      maxResults: 20,
-      orderBy: 'relevance',
-      printType: 'all',
+      inauthor: inauthor || '',
+      intitle: intitle || '',
+      inpublisher: inpublisher || '',
+      maxResults: maxResults || 20,
+      orderBy: orderBy || 'relevance',
+      printType: printType || 'all',
     },
   });
 
@@ -63,12 +67,11 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
 
   function handleDetailedSearch(values: SearchBookFilter) {
     if (!values.intitle && !values.inauthor && !values.inpublisher) {
-      formFilter.setError('intitle', { message: '' });
-      formFilter.setError('inauthor', { message: '' });
-      formFilter.setError('inpublisher', { message: '' });
+      handleSearch();
       return;
     }
 
+    formFilter.setValue('q', values.intitle || values.inauthor || values.inpublisher || ' ');
     onFilter({
       ...values,
       q: values.intitle || values.inauthor || values.inpublisher || ' ',
@@ -76,20 +79,9 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
     setIsOpen(false);
   }
 
-  const hasError =
-    formFilter.formState.errors.intitle &&
-    formFilter.formState.errors.inauthor &&
-    formFilter.formState.errors.inpublisher;
-
   useEffect(() => {
     if (debouncedQ) handleSearch(debouncedQ);
   }, [debouncedQ]);
-
-  useEffect(() => {
-    if (!hasError) {
-      formFilter.clearErrors();
-    }
-  }, [hasError]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -140,9 +132,7 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
               error={formFilter.formState.errors}
             />
 
-            {hasError && (
-              <p className='text-red-500'>Preencha pelo menos 1 dos campos para fazer uma busca.</p>
-            )}
+            <hr className='bg-muted' />
 
             <div className='grid grid-cols-2 gap-4'>
               <ControlledCombobox

@@ -6,6 +6,16 @@ export function useUrlFilter() {
   const navigate = useNavigate({ from: '/' });
 
   function setFilters(newFilters: Partial<SearchBookFilter>) {
+    if (!newFilters.q) {
+      navigate({
+        search: {
+          maxResults: newFilters.maxResults,
+          orderBy: newFilters.orderBy,
+          printType: newFilters.printType,
+        },
+      });
+      return;
+    }
     navigate({
       search: (prev: SearchBookFilter) => {
         return { ...prev, ...newFilters };
