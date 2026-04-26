@@ -15,15 +15,10 @@ export function adapter(book: BookApi) {
       printType: book.volumeInfo.printType,
       categories: book.volumeInfo.categories,
       imageLinks: book.volumeInfo.imageLinks,
-      infoLink: book.volumeInfo.infoLink,
       language: book.volumeInfo.language,
-      previewLink: book.volumeInfo.previewLink,
     },
     saleInfo: {
       country: book.saleInfo.country,
-      listPrice: book.saleInfo.listPrice,
-      retailPrice: book.saleInfo.retailPrice,
-      buyLink: book.saleInfo.buyLink,
     },
   };
 

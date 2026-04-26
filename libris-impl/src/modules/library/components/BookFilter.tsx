@@ -28,7 +28,7 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
       inauthor: '',
       intitle: '',
       inpublisher: '',
-      maxResults: 30,
+      maxResults: 20,
       orderBy: 'relevance',
       printType: 'all',
     },
@@ -41,32 +41,55 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
     formFilter.setValue('inauthor', '');
     formFilter.setValue('intitle', '');
     formFilter.setValue('inpublisher', '');
-    formFilter.setValue('maxResults', 30);
+    formFilter.setValue('maxResults', 20);
     formFilter.setValue('orderBy', 'relevance');
     formFilter.setValue('printType', 'all');
   };
 
   function handleSearch(q?: string) {
     const qToUse = q || formFilter.getValues('q');
+    const maxResults = formFilter.getValues('maxResults') || 20;
     onFilter({
       q: qToUse,
-      startIndex: 0,
+      inauthor: '',
+      intitle: '',
+      inpublisher: '',
+      maxResults,
+      orderBy: 'relevance',
+      printType: 'all',
     });
     setIsOpen(false);
   }
 
   function handleDetailedSearch(values: SearchBookFilter) {
+    if (!values.intitle && !values.inauthor && !values.inpublisher) {
+      formFilter.setError('intitle', { message: '' });
+      formFilter.setError('inauthor', { message: '' });
+      formFilter.setError('inpublisher', { message: '' });
+      return;
+    }
+
     onFilter({
       ...values,
       q: values.intitle || values.inauthor || values.inpublisher || ' ',
-      startIndex: 0,
     });
     setIsOpen(false);
   }
 
+  const hasError =
+    formFilter.formState.errors.intitle &&
+    formFilter.formState.errors.inauthor &&
+    formFilter.formState.errors.inpublisher;
+
   useEffect(() => {
     if (debouncedQ) handleSearch(debouncedQ);
   }, [debouncedQ]);
+
+  useEffect(() => {
+    if (!hasError) {
+      formFilter.clearErrors();
+    }
+  }, [hasError]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -98,9 +121,28 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
           </DialogHeader>
 
           <form className='space-y-4' onSubmit={formFilter.handleSubmit(handleDetailedSearch)}>
-            <ControlledInput label='Título' name='intitle' control={formFilter.control} />
-            <ControlledInput label='Autor' name='inauthor' control={formFilter.control} />
-            <ControlledInput label='Editora' name='inpublisher' control={formFilter.control} />
+            <ControlledInput
+              label='Título'
+              name='intitle'
+              control={formFilter.control}
+              error={formFilter.formState.errors}
+            />
+            <ControlledInput
+              label='Autor'
+              name='inauthor'
+              control={formFilter.control}
+              error={formFilter.formState.errors}
+            />
+            <ControlledInput
+              label='Editora'
+              name='inpublisher'
+              control={formFilter.control}
+              error={formFilter.formState.errors}
+            />
+
+            {hasError && (
+              <p className='text-red-500'>Preencha pelo menos 1 dos campos para fazer uma busca.</p>
+            )}
 
             <div className='grid grid-cols-2 gap-4'>
               <ControlledCombobox
@@ -133,8 +175,6 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
                   { label: '10', value: 10 },
                   { label: '15', value: 15 },
                   { label: '20', value: 20 },
-                  { label: '30', value: 30 },
-                  { label: '40', value: 40 },
                 ]}
               />
             </div>

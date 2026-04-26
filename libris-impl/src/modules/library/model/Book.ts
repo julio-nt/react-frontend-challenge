@@ -25,19 +25,8 @@ export interface VolumeInfo {
     thumbnail: string;
   };
   language?: string;
-  previewLink?: string;
-  infoLink?: string;
 }
 
 export interface SaleInfo {
   country: string;
-  listPrice?: {
-    amount: number;
-    currencyCode: string;
-  };
-  retailPrice?: {
-    amount: number;
-    currencyCode: string;
-  };
-  buyLink?: string;
 }

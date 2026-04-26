@@ -1,53 +1,46 @@
-import { useEffect } from 'react';
 import { useSearchBook } from '../useCase/useSearchBook';
 import BookFilter from './BookFilter';
 import Loading from '@shared/components/ui/loading';
 import BookItem from './BookItem';
 import { Search } from 'lucide-react';
 import { useUrlFilter } from '../useCase/useUrlFilter';
-import BookPagination from './Pagination';
+import InfiniteScroll from './InfiniteScroll';
 
 const BookList = () => {
   const { filters, setFilters } = useUrlFilter();
 
-  const { data, isLoading, isReloading, refetch, pagination } = useSearchBook({ filters });
-
-  useEffect(() => {
-    refetch();
-  }, [filters]);
-
-  function handlePageChange(startIndex: number) {
-    setFilters({ startIndex });
-  }
+  const { data, isLoading, pagination } = useSearchBook({ filters });
 
   return (
     <div>
       <BookFilter onFilter={setFilters} />
 
-      {isLoading && !isReloading ? (
+      {isLoading ? (
         <div className='flex flex-col items-center gap-4 mt-8 text-muted-foreground'>
           <Loading size={42} />
           <p>Carregando resultados...</p>
         </div>
       ) : (
         <div className='mt-6 space-y-2'>
-          {!pagination?.totalItems ? (
+          {!pagination.totalItems ? (
             <div className='flex flex-col items-center text-muted-foreground gap-4 mt-8'>
               <Search size={48} />
               <p>Faça uma busca para encontrar livros</p>
             </div>
           ) : (
-            <div className={`${isReloading ? 'blur' : ''}`}>
-              <div className={`flex flex-wrap gap-4`}>
-                {data?.map((book) => {
-                  return <BookItem key={book.id} book={book} />;
-                })}
-              </div>
-              <p className='text-muted-foreground text-sm'>
-                {pagination.totalItems} resultados encontrados
-              </p>
-              <BookPagination pagination={pagination} onPageChange={handlePageChange} />
-            </div>
+            <>
+              <InfiniteScroll
+                onLoadMore={pagination.fetchNextPage}
+                hasMore={pagination.hasNextPage}
+                isLoadingMore={pagination.isFetchingNextPage}
+              >
+                <div className='flex flex-wrap gap-4'>
+                  {data.map((book, i) => (
+                    <BookItem key={`${i}-${book.id}`} book={book} />
+                  ))}
+                </div>
+              </InfiniteScroll>
+            </>
           )}
         </div>
       )}

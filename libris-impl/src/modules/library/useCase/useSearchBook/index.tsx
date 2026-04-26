@@ -1,30 +1,45 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, type InfiniteData } from '@tanstack/react-query';
 import type { SearchBookRequest, SearchBookResponse } from './interface';
 import HttpBookApi from '@core/http';
 import { QueryKeys } from '@core/query/interface';
 import { adapter } from './adapter';
 import type { PaginatedBook } from '@modules/library/model/Book';
 
+const PAGE_SIZE = 20;
+
 export function useSearchBook({ skip, filters }: SearchBookRequest) {
-  const query = useQuery({
-    queryKey: [QueryKeys.SEARCH_BOOK_LIST],
-    enabled: !skip && !!filters,
+  const query = useInfiniteQuery<
+    PaginatedBook | null,
+    Error,
+    InfiniteData<PaginatedBook | null>,
+    unknown[],
+    number
+  >({
+    queryKey: [QueryKeys.SEARCH_BOOK_LIST, filters],
+    enabled: !skip && !!filters?.q,
     refetchOnWindowFocus: false,
     retry: false,
-    queryFn: async () => {
+    initialPageParam: 0,
+
+    getNextPageParam: (lastPage, allPages) => {
+      if (!lastPage) return undefined;
+      const loadedCount = allPages.reduce((acc, page) => acc + (page?.items?.length ?? 0), 0);
+      if (loadedCount >= lastPage.totalItems) return undefined;
+      return loadedCount;
+    },
+
+    queryFn: async ({ pageParam }) => {
       if (!filters?.q) return null;
 
       const url = 'https://www.googleapis.com/books/v1/volumes';
-
       const params = new URLSearchParams();
-
       const fullTextSearch = searchParamsToQuery(filters);
 
-      params.append('maxResults', filters.maxResults?.toString() || '30');
-      params.append('printType', filters.printType || 'all');
-      params.append('orderBy', filters.orderBy || 'relevance');
-      params.append('startIndex', filters.startIndex?.toString() || '0');
-
+      params.append('maxResults', filters.maxResults?.toString() ?? String(PAGE_SIZE));
+      params.append('printType', filters.printType ?? 'all');
+      params.append('orderBy', filters.orderBy ?? 'relevance');
+      params.append('projection', 'full');
+      params.append('startIndex', String(pageParam));
       params.append('q', fullTextSearch);
 
       if (filters.intitle) params.append('intitle', filters.intitle);
@@ -41,28 +56,26 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
       const adaptedResponse: PaginatedBook = {
         kind: response.kind,
         totalItems: response.totalItems,
-        items: adaptedItems || [],
+        items: adaptedItems ?? [],
       };
 
       return adaptedResponse;
     },
   });
 
-  const currentPage = filters?.startIndex
-    ? Math.floor(filters.startIndex / (filters.maxResults || 30)) + 1
-    : 1;
+  const allItems = query.data?.pages.flatMap((page) => page?.items ?? []) ?? [];
+  const totalItems = query.data?.pages[0]?.totalItems ?? 0;
 
   const pagination = {
-    totalItems: query.data?.totalItems || 0,
-    itemsPerPage: filters?.maxResults || 30,
-    currentPage,
+    totalItems,
+    isFetchingNextPage: query.isFetchingNextPage,
+    hasNextPage: query.hasNextPage,
+    fetchNextPage: query.fetchNextPage,
   };
 
   return {
-    data: query.data?.items || [],
+    data: allItems,
     isLoading: query.isLoading,
-    isReloading: query.isRefetching,
-    refetch: query.refetch,
     pagination,
   };
 }
