@@ -9,3 +9,8 @@ export const QueryKeys = Object.fromEntries(_queryKeys.map((k) => [k, k])) as {
 export type QueryKeysType = keyof typeof QueryKeys;
 
 export type Keyish = QueryKey | QueryKeysType;
+
+export type SetDataQuery<T> = {
+  pageParams?: number[];
+  pages: T[];
+};

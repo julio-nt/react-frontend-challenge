@@ -1,3 +1,5 @@
+import type { BookStatus } from './BookStatus';
+
 export interface PaginatedBook {
   kind: string;
   totalItems: number;
@@ -8,7 +10,7 @@ export interface Book {
   id: string;
   volumeInfo: VolumeInfo;
   saleInfo: SaleInfo;
-  status?: bookStatus;
+  status?: BookStatus;
 }
 
 export interface VolumeInfo {
@@ -31,5 +33,3 @@ export interface VolumeInfo {
 export interface SaleInfo {
   country: string;
 }
-
-export type bookStatus = 'to_read' | 'reading' | 'read';

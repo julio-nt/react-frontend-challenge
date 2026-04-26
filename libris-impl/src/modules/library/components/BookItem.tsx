@@ -3,6 +3,8 @@ import type { Book } from '../model/Book';
 import { useState } from 'react';
 import { Button } from '@shared/components/ui/button';
 import SaveBook from './SaveBook';
+import { useBookshelfStore } from '../store/bookshelf';
+import { BOOK_STATUS } from '../model/BookStatus';
 
 interface BookItemProps {
   book: Book | undefined;
@@ -11,8 +13,18 @@ interface BookItemProps {
 const BookItem = ({ book }: BookItemProps) => {
   if (!book) return null;
 
+  const bookshelf = useBookshelfStore((state) => state.bookshelf);
+
   const [hover, setHover] = useState(false);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
+
+  const currentShelf = bookshelf.to_read.find((b) => b.id === book.id)
+    ? 'to_read'
+    : bookshelf.reading.find((b) => b.id === book.id)
+      ? 'reading'
+      : bookshelf.read.find((b) => b.id === book.id)
+        ? 'read'
+        : null;
 
   const bookTitle =
     book.volumeInfo.title.length > 50
@@ -47,11 +59,11 @@ const BookItem = ({ book }: BookItemProps) => {
             <p className='text-xs'>Publicado: {formatDate(book.volumeInfo.publishedDate)}</p>
           )}
         </div>
-        <Button className='mt-4' onClick={() => setIsSaveDialogOpen(true)}>
-          SALVAR
+        <Button className='mt-4 bg-white text-black' onClick={() => setIsSaveDialogOpen(true)}>
+          {currentShelf ? BOOK_STATUS[currentShelf] : 'Salvar'}
         </Button>
       </div>
-      <SaveBook book={book} isOpen={isSaveDialogOpen} setIsOpen={setIsSaveDialogOpen} />
+      <SaveBook book={book} isOpen={isSaveDialogOpen} setIsOpen={setIsSaveDialogOpen} currentShelf={currentShelf} />
     </div>
   );
 };
