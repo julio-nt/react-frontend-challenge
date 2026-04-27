@@ -14,4 +14,19 @@ export default defineConfig({
       '@shared': path.resolve(__dirname, './src/shared'),
     },
   },
+  build: {
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [
+            { name: 'vendor-react', test: /node_modules[\\/](react|react-dom)[\\/]/, priority: 30 },
+            { name: 'vendor-router', test: /node_modules[\\/]@tanstack[\\/]react-router/, priority: 25 },
+            { name: 'vendor-query', test: /node_modules[\\/]@tanstack[\\/]react-query/, priority: 20 },
+            { name: 'vendor-form', test: /node_modules[\\/](react-hook-form|@hookform|zod)[\\/]/, priority: 15 },
+            { name: 'vendor-ui', test: /node_modules[\\/](radix-ui|@base-ui|cmdk|lucide-react|class-variance-authority|clsx|tailwind-merge)[\\/]/, priority: 10 },
+          ],
+        },
+      },
+    },
+  },
 });
