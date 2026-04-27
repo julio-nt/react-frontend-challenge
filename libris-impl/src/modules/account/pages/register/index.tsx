@@ -4,12 +4,10 @@ import ControlledInput from '@shared/components/controlled/ControlledInput';
 import { Button } from '@shared/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@core/navigation';
-import { useToast } from '@core/toast';
 import { useRegister } from '@modules/account/useCase/useRegister';
 
 const Component = () => {
   const { goTo } = useNavigation();
-  const { toastSuccess } = useToast();
 
   const { mutate, isLoading, error } = useRegister();
 
@@ -38,7 +36,6 @@ const Component = () => {
     mutate(sendData, {
       onSuccess: () => {
         goTo('/login', { email: values.email });
-        toastSuccess('Cadastrado com sucesso, faça login para continuar!');
       },
     });
   }
