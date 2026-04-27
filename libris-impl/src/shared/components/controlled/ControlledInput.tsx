@@ -21,11 +21,11 @@ const ControlledInput = <T extends FieldValues>({ label, control, name, error, i
       name={name}
       render={({ field }) => (
         <Field className='space-y-[-0.25rem]'>
-          <FieldLabel>
+          <FieldLabel htmlFor={field.name}>
             {label}
             {isLoading && <Loading />}
           </FieldLabel>
-          <Input {...field} {...rest} className={fieldError ? 'border-red-400' : ''} />
+          <Input {...field} {...rest} id={field.name} className={fieldError ? 'border-red-400' : ''} />
           {fieldError && <p className='text-red-500 text-sm'>{fieldError.message}</p>}
         </Field>
       )}
