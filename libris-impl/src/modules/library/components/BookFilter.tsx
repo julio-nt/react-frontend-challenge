@@ -13,7 +13,7 @@ import { Search } from 'lucide-react';
 import { Button } from '@shared/components/ui/button';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '@shared/hooks/use-debounce';
-import ControlledCombobox from '@shared/components/controlled/ControlledCombobox';
+import ControlledSelect from '@shared/components/controlled/ControlledSelect';
 import { useSearch } from '@tanstack/react-router';
 
 interface BookFilterProps {
@@ -134,7 +134,7 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
             <hr className='bg-muted' />
 
             <div className='grid grid-cols-2 gap-4'>
-              <ControlledCombobox
+              <ControlledSelect
                 label='Tipo de busca'
                 name='printType'
                 control={formFilter.control}
@@ -145,7 +145,7 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
                 ]}
               />
 
-              <ControlledCombobox
+              <ControlledSelect
                 label='Ordenar por'
                 name='orderBy'
                 control={formFilter.control}
@@ -155,7 +155,7 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
                 ]}
               />
 
-              <ControlledCombobox
+              <ControlledSelect
                 label='Tamanho da página'
                 name='maxResults'
                 control={formFilter.control}

@@ -1,4 +1,4 @@
-import ControlledCombobox from '@shared/components/controlled/ControlledCombobox';
+import ControlledSelect from '@shared/components/controlled/ControlledSelect';
 import ControlledInput from '@shared/components/controlled/ControlledInput';
 import { useForm } from 'react-hook-form';
 import { useUrlFilter } from '../useCase/useUrlFilter';
@@ -33,7 +33,7 @@ const BookshelfFilter = () => {
   return (
     <div className='grid grid-cols-2 gap-4'>
       <ControlledInput label='Nome' name='name' control={formFilters.control} />
-      <ControlledCombobox
+      <ControlledSelect
         label='Status'
         name='status'
         control={formFilters.control}
