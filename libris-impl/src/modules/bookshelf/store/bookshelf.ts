@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Book } from '../model/Book';
-import type { BookStatus } from '../model/BookStatus';
+import type { Book } from '../../library/model/Book';
+import type { BookStatus } from '../../library/model/BookStatus';
 
 interface BookshelfStore {
   bookshelf: {
@@ -17,33 +17,24 @@ export const useBookshelfStore = create<BookshelfStore>()(
   persist(
     (set, get) => {
       function save({ book, status }: { book: Book; status: BookStatus }) {
-        const currentShelf = get().bookshelf?.[status] ?? [];
-
         const currentBookShelf = Object.entries(get().bookshelf).find(([, books]) =>
           books.some((b) => b.id === book.id)
         );
 
-        if (currentBookShelf) {
-          const [key, books] = currentBookShelf;
+        set((state) => {
+          const newBookshelf = { ...state.bookshelf };
 
-          const removedBookShelf = books.filter((b) => b.id !== book.id);
+          if (currentBookShelf) {
+            const [key] = currentBookShelf;
+            newBookshelf[key as BookStatus] = newBookshelf[key as BookStatus].filter(
+              (b) => b.id !== book.id
+            );
+          }
 
-          set((state) => ({
-            bookshelf: {
-              ...state.bookshelf,
-              [key]: removedBookShelf,
-            },
-          }));
-        }
+          newBookshelf[status] = [...newBookshelf[status], book];
 
-        const updatedShelf = [...currentShelf, book];
-
-        set((state) => ({
-          bookshelf: {
-            ...state.bookshelf,
-            [status]: updatedShelf,
-          },
-        }));
+          return { bookshelf: newBookshelf };
+        });
       }
 
       function remove({ bookId, status }: { bookId: string; status: BookStatus }) {

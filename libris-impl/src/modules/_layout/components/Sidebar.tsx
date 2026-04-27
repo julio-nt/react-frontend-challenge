@@ -2,7 +2,13 @@ import { useNavigation } from '@core/navigation';
 import type { User } from '@modules/account/model/User';
 import { useLogout } from '@modules/account/useCase/useLogout';
 import { Button } from '@shared/components/ui/button';
-import { Sidebar as AppSidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader } from '@shared/components/ui/sidebar';
+import {
+  Sidebar as AppSidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+} from '@shared/components/ui/sidebar';
 import { SquareArrowRightExit } from 'lucide-react';
 
 interface SidebarProps {
@@ -20,12 +26,8 @@ const Sidebar = ({ user }: SidebarProps) => {
       onClick: () => goTo('/'),
     },
     {
-      label: 'Meus Livros',
-      onClick: () => goTo('/'),
-    },
-    {
-      label: 'Minhas Categorias',
-      onClick: () => goTo('/'),
+      label: 'Minha Estante',
+      onClick: () => goTo('/estantes'),
     },
   ];
 
@@ -42,7 +44,12 @@ const Sidebar = ({ user }: SidebarProps) => {
       <SidebarContent>
         <SidebarGroup>
           {sidebarItems.map((item) => (
-            <Button key={item.label} variant='ghost' className='w-full justify-start' onClick={item.onClick}>
+            <Button
+              key={item.label}
+              variant='ghost'
+              className='w-full justify-start'
+              onClick={item.onClick}
+            >
               {item.label}
             </Button>
           ))}

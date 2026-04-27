@@ -3,7 +3,7 @@ import type { Book } from '../model/Book';
 import { useState } from 'react';
 import { Button } from '@shared/components/ui/button';
 import SaveBook from './SaveBook';
-import { useBookshelfStore } from '../store/bookshelf';
+import { useBookshelfStore } from '../../bookshelf/store/bookshelf';
 import { BOOK_STATUS } from '../model/BookStatus';
 
 interface BookItemProps {
