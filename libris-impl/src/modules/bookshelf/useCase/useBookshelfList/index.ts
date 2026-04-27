@@ -3,24 +3,26 @@ import { useQuery } from '@tanstack/react-query';
 import type { BookshelfListRequest } from './interface';
 import { useBookshelfStore } from '@modules/bookshelf/store/bookshelf';
 
-export function useBookshelfList({ skip }: BookshelfListRequest) {
-  const { bookshelf } = useBookshelfStore.getState();
-
+export function useBookshelfList({ skip, filters }: BookshelfListRequest) {
   const query = useQuery({
-    queryKey: [QueryKeys.BOOKSHELF_LIST],
+    queryKey: [QueryKeys.BOOKSHELF_LIST, filters],
     enabled: !skip,
     queryFn: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       try {
-        const allBooks = Object.values(bookshelf).flat();
+        const { bookshelf } = useBookshelfStore.getState();
 
-        const orderedBooks = allBooks.sort((a, b) => {
-          const titleA = a.volumeInfo?.title || '';
-          const titleB = b.volumeInfo?.title || '';
+        const source = filters?.status ? bookshelf[filters.status] : Object.values(bookshelf).flat();
 
-          return titleA.localeCompare(titleB);
-        });
+        const filtered = filters?.name
+          ? source.filter((b) =>
+              b.volumeInfo?.title?.toLowerCase().includes(filters.name!.toLowerCase())
+            )
+          : source;
 
-        return orderedBooks;
+        return filtered.sort((a, b) =>
+          (a.volumeInfo?.title || '').localeCompare(b.volumeInfo?.title || '')
+        );
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
         throw new Error(`Erro ao buscar estantes: ${errorMessage}`);
