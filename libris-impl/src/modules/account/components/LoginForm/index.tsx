@@ -25,13 +25,10 @@ const LoginForm = () => {
   function handleSubmit(values: LoginFormData) {
     const { email, password, rememberMe } = values;
 
-    console.log('Login data:', { rememberMe });
-
     mutate(
       { email, password },
       {
         onSuccess: () => {
-          console.log('aqui');
           rememberMe ? setLastEmail(email) : removeLastEmail();
           goTo('/');
         },
