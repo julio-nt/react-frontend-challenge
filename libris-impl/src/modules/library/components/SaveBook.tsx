@@ -9,6 +9,7 @@ import type { Book } from '../model/Book';
 import { useSaveBook } from '../../bookshelf/useCase/useSaveBook';
 import { BOOK_STATUS, type BookStatus } from '../model/BookStatus';
 import { useRemoveBook } from '../../bookshelf/useCase/useRemoveBook';
+import { toast } from '@core/toast';
 
 interface SaveBookProps {
   book: Book | undefined;
@@ -34,8 +35,16 @@ const SaveBook = ({ book, isOpen, setIsOpen, currentShelf }: SaveBookProps) => {
     saveBook(
       { book, status },
       {
-        onSettled: () => {
+        onSuccess: () => {
           setIsOpen(false);
+          toast.success(`Livro salvo na estante "${BOOK_STATUS[status]}"!`, {
+            description: `Livro: ${book.volumeInfo.title}`,
+          });
+        },
+        onError: (err) => {
+          toast.error('Algo deu errado ao salvar o livro', {
+            description: err.message,
+          });
         },
       }
     );
@@ -49,6 +58,14 @@ const SaveBook = ({ book, isOpen, setIsOpen, currentShelf }: SaveBookProps) => {
       {
         onSuccess: () => {
           setIsOpen(false);
+          toast.success(`Livro removido da estante!`, {
+            description: `Livro: ${book.volumeInfo.title}`,
+          });
+        },
+        onError: (err) => {
+          toast.error('Algo deu errado ao remover o livro', {
+            description: err.message,
+          });
         },
       }
     );

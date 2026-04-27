@@ -7,6 +7,7 @@ import ControlledCheckbox from '@shared/components/controlled/ControlledCheckbox
 import ControlledInput from '@shared/components/controlled/ControlledInput';
 import { Button } from '@shared/components/ui/button';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 const LoginForm = () => {
   const { goTo } = useNavigation();
@@ -31,6 +32,11 @@ const LoginForm = () => {
         onSuccess: () => {
           rememberMe ? setLastEmail(email) : removeLastEmail();
           goTo('/');
+        },
+        onError: (err) => {
+          toast.error('Erro ao fazer login', {
+            description: err.message,
+          });
         },
       }
     );

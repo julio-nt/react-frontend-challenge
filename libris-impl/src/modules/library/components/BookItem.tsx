@@ -27,8 +27,8 @@ const BookItem = ({ book }: BookItemProps) => {
         : null;
 
   const bookTitle =
-    book.volumeInfo.title.length > 50
-      ? book.volumeInfo.title.slice(0, 50) + '...'
+    book.volumeInfo.title.length > 40
+      ? book.volumeInfo.title.slice(0, 40) + '...'
       : book.volumeInfo.title;
 
   return (

@@ -6,6 +6,7 @@ import ControlledInput from '@shared/components/controlled/ControlledInput';
 import { useForm } from 'react-hook-form';
 import { Button } from '@shared/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from '@core/toast';
 
 const RegisterForm = () => {
   const { goTo } = useNavigation();
@@ -39,6 +40,14 @@ const RegisterForm = () => {
       onSuccess: () => {
         setLastEmail(values.email);
         goTo('/login');
+        toast.success('Cadastro realizado com sucesso!', {
+          description: 'Faça login para continuar.',
+        });
+      },
+      onError: (err) => {
+        toast.error('Erro ao cadastrar', {
+          description: err.message,
+        });
       },
     });
   }
