@@ -1,4 +1,4 @@
-import { useBookshelfStore } from '@modules/library/store/bookshelf';
+import { useBookshelfStore } from '@modules/bookshelf/store/bookshelf';
 import { useMutation } from '@tanstack/react-query';
 import type { SaveBookRequest } from './interface';
 
@@ -8,6 +8,8 @@ export function useSaveBook() {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       useBookshelfStore.getState().save({ book, status });
+
+      return true;
     },
   });
 

@@ -4,6 +4,7 @@ import PrivateLayout from '@modules/_layout';
 import Home from '@modules/library/pages/SearchList';
 import { rootRoute } from './root';
 import type { SearchBookFilter } from '@modules/library/useCase/useSearchBook/interface';
+import BookShelfsPage from '@modules/bookshelf/pages/BookShelfs';
 
 const privateLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -26,4 +27,10 @@ const homeRoute = createRoute({
   component: Home.Component,
 });
 
-export const privateRouteTree = privateLayoutRoute.addChildren([homeRoute]);
+const bookshelfRoute = createRoute({
+  getParentRoute: () => privateLayoutRoute,
+  path: BookShelfsPage.path,
+  component: BookShelfsPage.Component,
+});
+
+export const privateRouteTree = privateLayoutRoute.addChildren([homeRoute, bookshelfRoute]);

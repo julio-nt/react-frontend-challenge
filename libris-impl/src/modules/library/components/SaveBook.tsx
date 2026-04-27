@@ -6,9 +6,9 @@ import {
   CommandItem,
 } from '@shared/components/ui/command';
 import type { Book } from '../model/Book';
-import { useSaveBook } from '../useCase/useSaveBook';
+import { useSaveBook } from '../../bookshelf/useCase/useSaveBook';
 import { BOOK_STATUS, type BookStatus } from '../model/BookStatus';
-import { useRemoveBook } from '../useCase/useRemoveBook';
+import { useRemoveBook } from '../../bookshelf/useCase/useRemoveBook';
 
 interface SaveBookProps {
   book: Book | undefined;
@@ -34,7 +34,7 @@ const SaveBook = ({ book, isOpen, setIsOpen, currentShelf }: SaveBookProps) => {
     saveBook(
       { book, status },
       {
-        onSuccess: () => {
+        onSettled: () => {
           setIsOpen(false);
         },
       }
