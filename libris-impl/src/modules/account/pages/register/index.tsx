@@ -4,12 +4,10 @@ import ControlledInput from '@shared/components/controlled/ControlledInput';
 import { Button } from '@shared/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@core/navigation';
-import { useToast } from '@core/toast';
 import { useRegister } from '@modules/account/useCase/useRegister';
 
 const Component = () => {
   const { goTo } = useNavigation();
-  const { toastSuccess } = useToast();
 
   const { mutate, isLoading, error } = useRegister();
 
@@ -38,7 +36,6 @@ const Component = () => {
     mutate(sendData, {
       onSuccess: () => {
         goTo('/login', { email: values.email });
-        toastSuccess('Cadastrado com sucesso, faça login para continuar!');
       },
     });
   }
@@ -54,7 +51,13 @@ const Component = () => {
         </div>
 
         <form className='space-y-4' onSubmit={registerForm.handleSubmit(handleSubmit)}>
-          <ControlledInput label='Nome' control={registerForm.control} name='name' error={formStateError} disabled={isLoading} />
+          <ControlledInput
+            label='Nome'
+            control={registerForm.control}
+            name='name'
+            error={formStateError}
+            disabled={isLoading}
+          />
           <ControlledInput
             label='Email'
             control={registerForm.control}
@@ -88,7 +91,10 @@ const Component = () => {
 
         <p className='text-center text-sm text-muted-foreground'>
           Já possui uma conta?
-          <span className='text-blue-500 cursor-pointer hover:underline underline-offset-2' onClick={() => goTo('/login')}>
+          <span
+            className='text-blue-500 cursor-pointer hover:underline underline-offset-2'
+            onClick={() => goTo('/login')}
+          >
             {' '}
             Faça login
           </span>
