@@ -1,6 +1,6 @@
 import { useSearchBook } from '../useCase/useSearchBook';
 import BookFilter from './BookFilter';
-import Loading from '@shared/components/ui/loading';
+import BookListSkeleton from './BookListSkeleton';
 import BookItem from './BookItem';
 import { Search } from 'lucide-react';
 import { useUrlFilter } from '../useCase/useUrlFilter';
@@ -16,9 +16,8 @@ const BookList = () => {
       <BookFilter onFilter={setFilters} />
 
       {isLoading ? (
-        <div className='flex flex-col items-center gap-4 mt-8 text-muted-foreground'>
-          <Loading size={42} />
-          <p>Carregando resultados...</p>
+        <div className='mt-6'>
+          <BookListSkeleton />
         </div>
       ) : (
         <div className='mt-6 space-y-2'>

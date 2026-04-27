@@ -1,9 +1,9 @@
 import BookItem from '@modules/library/components/BookItem';
 import BookshelfFilter from './BookshelfFilter';
 import { useBookshelfList } from '../useCase/useBookshelfList';
-import Loading from '@shared/components/ui/loading';
 import { BookDashed } from 'lucide-react';
 import { useUrlFilter } from '../useCase/useUrlFilter';
+import BookListSkeleton from '@modules/library/components/BookListSkeleton';
 
 const BookShelfList = () => {
   const { filters } = useUrlFilter();
@@ -13,10 +13,7 @@ const BookShelfList = () => {
     <div className='space-y-4'>
       <BookshelfFilter />
       {isLoading ? (
-        <div className='flex flex-col items-center gap-4 mt-8 text-muted-foreground'>
-          <Loading size={42} />
-          <p>Carregando estante...</p>
-        </div>
+        <BookListSkeleton />
       ) : data.length === 0 ? (
         <div className='flex flex-col items-center text-muted-foreground gap-4 mt-8'>
           <BookDashed size={48} />
