@@ -1,5 +1,5 @@
-import { useAuthStore } from '@modules/account/storage/auth';
-import { useRegisterStore } from '@modules/account/storage/register';
+import { useAuthStore } from '@modules/account/store/auth';
+import { useRegisterStore } from '@modules/account/store/register';
 import { useMutation } from '@tanstack/react-query';
 import type { LoginRequest } from './interface';
 

@@ -14,8 +14,17 @@ export const useRegisterStore = create<RegisterStore>()(
         return { ok: true };
       }
 
-      return { userList, register };
+      function setLastEmail(email: string) {
+        set(() => ({ lastEmail: email }));
+      }
+
+      function removeLastEmail() {
+        set(() => ({ lastEmail: undefined }));
+      }
+
+      return { userList, register, setLastEmail, removeLastEmail };
     },
+
     { name: 'register-store' }
   )
 );

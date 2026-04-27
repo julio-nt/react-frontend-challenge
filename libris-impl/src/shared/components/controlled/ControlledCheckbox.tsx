@@ -16,7 +16,15 @@ const ControlledCheckbox = <T extends FieldValues>({ label, control, name, ...re
       render={({ field }) => (
         <FieldGroup>
           <Field orientation='horizontal' className='space-y-[-0.25rem]'>
-            <Checkbox {...field} {...rest} id={field.name} />
+            <Checkbox
+              {...rest}
+              id={field.name}
+              name={field.name}
+              ref={field.ref}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+              onBlur={field.onBlur}
+            />
             <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
           </Field>
         </FieldGroup>

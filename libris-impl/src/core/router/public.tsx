@@ -1,8 +1,8 @@
 import type { AnyRoute } from '@tanstack/react-router';
 
 import { createRoute } from '@tanstack/react-router';
-import LoginPage from '@modules/account/pages/login';
-import RegisterPage from '@modules/account/pages/register';
+import LoginPage from '@modules/account/pages/Login';
+import RegisterPage from '@modules/account/pages/Register';
 import { rootRoute } from './root';
 //
 const loginRoute = createRoute({

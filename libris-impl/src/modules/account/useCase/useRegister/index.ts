@@ -1,4 +1,4 @@
-import { useRegisterStore } from '@modules/account/storage/register';
+import { useRegisterStore } from '@modules/account/store/register';
 import { useMutation } from '@tanstack/react-query';
 import type { RegisterRequest } from './interface';
 
