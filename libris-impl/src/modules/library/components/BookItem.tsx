@@ -91,7 +91,10 @@ const BookItem = ({ book }: BookItemProps) => {
 
         <Button
           className='mt-4 bg-white text-black cursor-pointer'
-          onClick={() => setIsSaveDialogOpen(true)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsSaveDialogOpen(true);
+          }}
           disabled={!isOnFocus}
         >
           {currentShelf ? BOOK_STATUS[currentShelf] : 'Salvar'}

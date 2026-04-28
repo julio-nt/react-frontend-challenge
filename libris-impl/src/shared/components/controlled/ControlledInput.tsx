@@ -5,7 +5,7 @@ import { Field, FieldLabel } from '../ui/field';
 import Loading from '../ui/loading';
 
 interface ControlledInputProps<T extends FieldValues> extends Omit<React.ComponentProps<'input'>, 'name'> {
-  label: string;
+  label?: string;
   control: Control<T>;
   name: Path<T>;
   error?: FieldErrors<T>;

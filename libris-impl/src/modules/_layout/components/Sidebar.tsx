@@ -11,7 +11,7 @@ import {
   useSidebar,
 } from '@shared/components/ui/sidebar';
 import { useLocation } from '@tanstack/react-router';
-import { SquareArrowRightExit } from 'lucide-react';
+import { Bookmark, BookSearch, SquareArrowRightExit } from 'lucide-react';
 
 interface SidebarProps {
   user: User | undefined;
@@ -34,14 +34,16 @@ const Sidebar = ({ user }: SidebarProps) => {
 
   const sidebarItems = [
     {
-      label: 'Início',
+      label: 'Descubra',
       onClick: () => handleItemClick('/'),
       path: '/',
+      icon: <BookSearch />,
     },
     {
       label: 'Minha Estante',
       onClick: () => handleItemClick('/estantes'),
       path: '/estantes',
+      icon: <Bookmark />,
     },
   ];
 
@@ -56,7 +58,7 @@ const Sidebar = ({ user }: SidebarProps) => {
         <p className='text-lg font-bold'>Menu</p>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
+        <SidebarGroup className='space-y-2' title='Navegação'>
           {sidebarItems.map((item) => {
             const isActive = pathname === item.path;
 
@@ -64,9 +66,10 @@ const Sidebar = ({ user }: SidebarProps) => {
               <Button
                 key={item.label}
                 variant='ghost'
-                className={`w-full justify-start ${isActive ? 'bg-secondary' : ''}`}
+                className={`w-full justify-start gap-2 ${isActive ? 'bg-secondary' : ''}`}
                 onClick={item.onClick}
               >
+                {item.icon}
                 {item.label}
               </Button>
             );

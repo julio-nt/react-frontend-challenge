@@ -59,7 +59,7 @@ function Button({
       data-variant={variant}
       data-size={size}
       disabled={isLoading || props.disabled}
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(`cursor-pointer ${buttonVariants({ variant, size, className })}`)}
       {...props}
     >
       {asChild ? props.children : (
