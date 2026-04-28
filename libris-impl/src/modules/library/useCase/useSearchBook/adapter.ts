@@ -22,5 +22,5 @@ export function adapter(book: BookApi) {
     },
   };
 
-  return { book: adaptedBook };
+  return adaptedBook;
 }
