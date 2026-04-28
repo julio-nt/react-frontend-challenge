@@ -51,7 +51,7 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
   };
 
   function handleSearch(q?: string) {
-    const qToUse = q || formFilter.getValues('q');
+    const qToUse = q || formFilter.getValues('q') || ' ';
     const maxResults = formFilter.getValues('maxResults') || 20;
     onFilter({
       q: qToUse,
@@ -67,13 +67,13 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
 
   function handleDetailedSearch(values: SearchBookFilter) {
     if (!values.intitle && !values.inauthor && !values.inpublisher) {
-      handleSearch();
+      handleSearch(values.q || ' ');
       return;
     }
 
     onFilter({
       ...values,
-      q: ' ',
+      q: values.q || ' ',
     });
     setIsOpen(false);
   }

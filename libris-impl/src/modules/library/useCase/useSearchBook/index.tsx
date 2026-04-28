@@ -50,7 +50,7 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
       const response = await HttpBookApi.get<SearchBookResponse>(url, params);
 
       const adaptedItems = response.items?.map((item) => {
-        const { book } = adapter(item);
+        const book = adapter(item);
         return book;
       });
 

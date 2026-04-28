@@ -75,14 +75,14 @@ const SaveBook = ({ book, isOpen, setIsOpen, currentShelf }: SaveBookProps) => {
     <CommandDialog open={isOpen} onOpenChange={setIsOpen}>
       <Command value=''>
         <CommandList>
-          <CommandGroup heading={`Salvar "${smallTitle}" em:`}>
+          <CommandGroup heading={`Selecione o status para o livro "${smallTitle}":`}>
             {Object.entries(BOOK_STATUS).map(([key, status]) => (
               <CommandItem
                 key={key}
                 onSelect={() => handleSave(key as BookStatus)}
                 disabled={isLoadingAll || currentShelf === key}
               >
-                {status} {currentShelf === key && '(Atual)'}
+                {status} {currentShelf === key && '(Selecionado)'}
               </CommandItem>
             ))}
             {currentShelf && (
