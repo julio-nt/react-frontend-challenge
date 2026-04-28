@@ -26,7 +26,7 @@ const ControlledInput = <T extends FieldValues>({ label, control, name, error, i
             {isLoading && <Loading />}
           </FieldLabel>
           <Input {...field} {...rest} id={field.name} className={fieldError ? 'border-red-400' : ''} />
-          {fieldError && <p className='text-red-500 text-sm'>{fieldError.message}</p>}
+          {fieldError && <p className='text-red-400 text-sm'>{fieldError.message}</p>}
         </Field>
       )}
     />

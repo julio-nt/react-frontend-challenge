@@ -1,30 +1,13 @@
-import { useRegisterStore } from '@modules/account/store/register';
 import { useMutation } from '@tanstack/react-query';
 import type { RegisterRequest } from './interface';
+import { useApiSimulation } from '@core/_api/register';
 
 export function useRegister() {
+  const { simulateRegister } = useApiSimulation();
+
   const mutation = useMutation({
     mutationFn: async (body: RegisterRequest) => {
-      const { name, email, password } = body;
-
-      const { userList } = useRegisterStore.getState();
-      const existingUser = userList.find((user) => user.email === email);
-
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
-      if (existingUser) {
-        throw new Error('Email já cadastrado');
-      }
-
-      const newUser = {
-        id: crypto.randomUUID(),
-        name: name,
-        email: email,
-        password: password,
-        created_at: new Date().toISOString(),
-      };
-
-      useRegisterStore.getState().register(newUser);
+      await simulateRegister(body);
 
       return { ok: true };
     },

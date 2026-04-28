@@ -88,7 +88,7 @@ const RegisterForm = () => {
           disabled={isLoading}
         />
 
-        {error && <p className='text-red-500 text-sm text-center'>{error.message}</p>}
+        {error && <p className='text-red-400 text-sm text-center'>{error.message}</p>}
 
         <Button className='w-full' disabled={isLoading}>
           {isLoading ? 'Cadastrando...' : 'Cadastrar'}

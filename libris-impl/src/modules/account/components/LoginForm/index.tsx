@@ -42,10 +42,6 @@ const LoginForm = () => {
     );
   }
 
-  function handleLinkClick(to: 'cadastro' | 'esqueci-senha') {
-    goTo(`/${to}`);
-  }
-
   const formStateError = loginForm.formState.errors;
 
   return (
@@ -67,28 +63,20 @@ const LoginForm = () => {
 
         <ControlledCheckbox label='Lembrar de mim' control={loginForm.control} name='rememberMe' />
 
-        {error && <p className='text-red-500 text-sm text-center'>{error.message}</p>}
+        {error && <p className='text-red-400 text-sm text-center'>{error.message}</p>}
 
         <Button className='w-full' isLoading={isLoading}>
           Entrar
         </Button>
       </form>
 
-      <div className='space-y-2'>
-        <p
-          className='text-center text-sm text-muted-foreground cursor-pointer hover:underline underline-offset-2'
-          onClick={() => handleLinkClick('esqueci-senha')}
-        >
-          Esqueceu sua senha?
-        </p>
-        <p
-          className='text-center text-sm text-muted-foreground cursor-pointer'
-          onClick={() => handleLinkClick('cadastro')}
-        >
-          Não tem uma conta?{' '}
-          <span className='text-blue-400 hover:underline underline-offset-2'>Cadastre-se</span>
-        </p>
-      </div>
+      <p
+        className='text-center text-sm text-muted-foreground cursor-pointer'
+        onClick={() => goTo(`/cadastro`)}
+      >
+        Não tem uma conta?{' '}
+        <span className='text-blue-400 hover:underline underline-offset-2'>Cadastre-se</span>
+      </p>
     </>
   );
 };
