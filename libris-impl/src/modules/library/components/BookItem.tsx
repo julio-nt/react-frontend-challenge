@@ -5,6 +5,7 @@ import { Button } from '@shared/components/ui/button';
 import SaveBook from './SaveBook';
 import { useBookshelfStore } from '../../bookshelf/store/bookshelf';
 import { BOOK_STATUS } from '../model/BookStatus';
+import { useIsMobile } from '@shared/hooks/use-mobile';
 
 interface BookItemProps {
   book: Book | undefined;
@@ -12,10 +13,11 @@ interface BookItemProps {
 
 const BookItem = ({ book }: BookItemProps) => {
   if (!book) return null;
+  const isMobile = useIsMobile()
 
   const bookshelf = useBookshelfStore((state) => state.bookshelf);
 
-  const [hover, setHover] = useState(false);
+  const [isOnFocus, setIsOnFocus] = useState(false);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
 
   const currentShelf = bookshelf.to_read.find((b) => b.id === book.id)
@@ -26,10 +28,22 @@ const BookItem = ({ book }: BookItemProps) => {
         ? 'read'
         : null;
 
-  const bookTitle =
-    book.volumeInfo.title.length > 40
+  const bookTitle = book.volumeInfo.title
+    ? book.volumeInfo.title.length > 40
       ? book.volumeInfo.title.slice(0, 40) + '...'
-      : book.volumeInfo.title;
+      : book.volumeInfo.title
+    : 'Sem título';
+
+  const bookAuthors = book.volumeInfo.authors
+    ? book.volumeInfo.authors.join(', ').slice(0, 30) +
+      (book.volumeInfo.authors.join(', ').length > 30 ? '...' : '')
+    : 'Sem autor';
+
+  function handleBookClick() {
+    if (isMobile) {
+      setIsOnFocus(true);
+    }
+  }
 
   return (
     <div className='w-[180px] border border-2 border-foreground rounded-sm flex flex-col transition-all relative'>
@@ -41,29 +55,39 @@ const BookItem = ({ book }: BookItemProps) => {
         <img src={book.volumeInfo.imageLinks?.thumbnail} className='w-full h-[250px] rounded-sm' />
       )}
       <div
-        className={`bg-black opacity-0 ${hover ? 'opacity-60' : ''}  absolute top-0 w-full h-full flex`}
+        className={`bg-black opacity-0 ${isOnFocus ? 'opacity-60' : ''}  absolute top-0 w-full h-full flex`}
       />
       <div
-        className={`absolute top-0 opacity-0  transition-all hover:opacity-100 w-full h-full flex flex-col p-4 text-white rounded-sm`}
-        onMouseOver={() => setHover(true)}
-        onMouseOut={() => setHover(false)}
+        className={`absolute top-0 transition-all w-full h-full flex flex-col p-4 text-white rounded-sm z-[99] ${isOnFocus ? 'opacity-100' : 'opacity-0 hover:opacity-100'}`}
+        onMouseOver={() => setIsOnFocus(true)}
+        onMouseOut={() => setIsOnFocus(false)}
+        onClick={handleBookClick}
       >
         <p className='font-semibold text-sm mt-2 mb-4'>{bookTitle}</p>
         <div className='mt-auto space-y-1'>
           <p className='text-xs'>
             {!book.volumeInfo.authors
               ? 'Sem Autor'
-              : `Autor${book.volumeInfo.authors?.length > 1 ? 'es' : ''}: ${book.volumeInfo.authors?.join(', ')}`}
+              : `Autor${book.volumeInfo.authors?.length > 1 ? 'es' : ''}: ${bookAuthors}`}
           </p>
           {book.volumeInfo.publishedDate && (
             <p className='text-xs'>Publicado: {formatDate(book.volumeInfo.publishedDate)}</p>
           )}
         </div>
-        <Button className='mt-4 bg-white text-black' onClick={() => setIsSaveDialogOpen(true)}>
+        <Button
+          className='mt-4 bg-white text-black'
+          onClick={() => setIsSaveDialogOpen(true)}
+          disabled={!isOnFocus}
+        >
           {currentShelf ? BOOK_STATUS[currentShelf] : 'Salvar'}
         </Button>
       </div>
-      <SaveBook book={book} isOpen={isSaveDialogOpen} setIsOpen={setIsSaveDialogOpen} currentShelf={currentShelf} />
+      <SaveBook
+        book={book}
+        isOpen={isSaveDialogOpen}
+        setIsOpen={setIsSaveDialogOpen}
+        currentShelf={currentShelf}
+      />
     </div>
   );
 };

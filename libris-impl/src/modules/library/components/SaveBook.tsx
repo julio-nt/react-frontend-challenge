@@ -38,7 +38,7 @@ const SaveBook = ({ book, isOpen, setIsOpen, currentShelf }: SaveBookProps) => {
         onSuccess: () => {
           setIsOpen(false);
           toast.success(`Livro salvo na estante "${BOOK_STATUS[status]}"!`, {
-            description: `Livro: ${book.volumeInfo.title}`,
+            description: `Livro: ${smallTitle}`,
           });
         },
         onError: (err) => {
@@ -73,7 +73,7 @@ const SaveBook = ({ book, isOpen, setIsOpen, currentShelf }: SaveBookProps) => {
 
   return (
     <CommandDialog open={isOpen} onOpenChange={setIsOpen}>
-      <Command>
+      <Command value=''>
         <CommandList>
           <CommandGroup heading={`Salvar "${smallTitle}" em:`}>
             {Object.entries(BOOK_STATUS).map(([key, status]) => (

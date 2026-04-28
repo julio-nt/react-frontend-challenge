@@ -14,7 +14,7 @@ export interface Book {
 }
 
 export interface VolumeInfo {
-  title: string;
+  title?: string;
   subtitle?: string;
   authors?: string[];
   publisher?: string;
