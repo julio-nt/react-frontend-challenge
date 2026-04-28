@@ -5,6 +5,7 @@ export const toast = {
     SonnerToast.success(message, {
       description: options?.description,
       position: 'top-right',
+      style: { backgroundColor: '#4BB543', color: '#fff' },
     });
   },
 
@@ -12,6 +13,7 @@ export const toast = {
     SonnerToast.error(message, {
       description: options?.description,
       position: 'top-right',
+      style: { backgroundColor: '#FF4C4C', color: '#fff' },
     });
   },
 };

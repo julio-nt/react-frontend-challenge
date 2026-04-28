@@ -7,7 +7,7 @@ import ControlledCheckbox from '@shared/components/controlled/ControlledCheckbox
 import ControlledInput from '@shared/components/controlled/ControlledInput';
 import { Button } from '@shared/components/ui/button';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
+import { toast } from '@core/toast';
 
 const LoginForm = () => {
   const { goTo } = useNavigation();
