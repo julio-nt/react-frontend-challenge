@@ -1,4 +1,4 @@
-import { useParams } from '@tanstack/react-router';
+import { useCanGoBack, useParams } from '@tanstack/react-router';
 import { useBookById } from '../useCase/useBookById';
 import BookDetailSkeleton from '../components/BookDetailSkeleton';
 import { Button } from '@shared/components/ui/button';
@@ -9,8 +9,18 @@ import BookDetail from '../components/BookDetail';
 const Component = () => {
   const { id } = useParams({ strict: false });
   const { goTo } = useNavigation();
+  const canGoBack = useCanGoBack();
 
   const { data, isLoading } = useBookById({ bookId: id });
+
+  function handleGoBack() {
+    if (!canGoBack) {
+      goTo('/');
+      return;
+    }
+
+    window.history.back();
+  }
 
   if (isLoading) return <BookDetailSkeleton />;
 
@@ -18,7 +28,7 @@ const Component = () => {
     return (
       <div className='flex flex-col items-center justify-center h-full gap-4 py-20'>
         <p className='text-xl font-semibold'>Livro não encontrado</p>
-        <Button variant='outline' onClick={() => goTo('/')}>
+        <Button variant='outline' onClick={handleGoBack}>
           <ArrowLeft className='mr-2 h-4 w-4' />
           Voltar para a busca
         </Button>
@@ -28,7 +38,7 @@ const Component = () => {
 
   return (
     <div className='max-w-4xl mx-auto p-6 space-y-6'>
-      <Button variant='ghost' className='pl-0' onClick={() => goTo('/')}>
+      <Button variant='ghost' className='pl-0' onClick={handleGoBack}>
         <ArrowLeft className='mr-2 h-4 w-4' />
         Voltar
       </Button>
