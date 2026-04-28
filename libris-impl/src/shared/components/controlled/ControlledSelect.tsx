@@ -37,12 +37,21 @@ const ControlledSelect = <T extends FieldValues>({
       render={({ field }) => {
         const value = field.value.toString() || '__empty__';
 
+        function handleChange(newValue: string) {
+          if (newValue === '__empty__') {
+            field.onChange('');
+            return;
+          }
+
+          field.onChange(newValue);
+        }
+
         return (
           <FieldGroup>
             <Field className='space-y-[-0.25rem]'>
               <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
 
-              <Select value={value} onValueChange={field.onChange}>
+              <Select value={value} onValueChange={handleChange}>
                 <SelectTrigger className='w-full'>
                   <SelectValue placeholder='Selecione uma opção' />
                 </SelectTrigger>
