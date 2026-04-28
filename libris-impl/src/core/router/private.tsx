@@ -6,6 +6,7 @@ import { rootRoute } from './root';
 import type { SearchBookFilter } from '@modules/library/useCase/useSearchBook/interface';
 import BookShelfsPage from '@modules/bookshelf/pages/BookShelfs';
 import type { BookshelfListFilters } from '@modules/bookshelf/useCase/useUrlFilter/interface';
+import BookDetailsPage from '@modules/library/pages/BookDetails';
 
 const privateLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -15,13 +16,13 @@ const privateLayoutRoute = createRoute({
 
 const homeRoute = createRoute({
   getParentRoute: () => privateLayoutRoute,
-  validateSearch: (search) => ({
+  validateSearch: (search: SearchBookFilter) => ({
     q: search.q,
-    intitle: search.intitle as string | undefined,
-    inauthor: search.inauthor as string | undefined,
-    inpublisher: search.inpublisher as string | undefined,
-    printType: search.printType as SearchBookFilter['printType'],
-    orderBy: search.orderBy as SearchBookFilter['orderBy'],
+    intitle: search.intitle,
+    inauthor: search.inauthor,
+    inpublisher: search.inpublisher,
+    printType: search.printType,
+    orderBy: search.orderBy,
     maxResults: search.maxResults ? Number(search.maxResults) : undefined,
   }),
   path: Home.path,
@@ -38,4 +39,14 @@ const bookshelfRoute = createRoute({
   }),
 });
 
-export const privateRouteTree = privateLayoutRoute.addChildren([homeRoute, bookshelfRoute]);
+const bookDetailsRoute = createRoute({
+  getParentRoute: () => privateLayoutRoute,
+  path: BookDetailsPage.path,
+  component: BookDetailsPage.Component,
+});
+
+export const privateRouteTree = privateLayoutRoute.addChildren([
+  homeRoute,
+  bookshelfRoute,
+  bookDetailsRoute,
+]);
