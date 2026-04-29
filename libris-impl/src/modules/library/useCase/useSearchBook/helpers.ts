@@ -21,7 +21,5 @@ export function searchParamsToQuery(
   params.append('orderBy', filters.orderBy ?? 'relevance');
   params.append('projection', 'full');
 
-  console.log('Query params:', { extraParams, params: params.toString() });
-
   return params;
 }
