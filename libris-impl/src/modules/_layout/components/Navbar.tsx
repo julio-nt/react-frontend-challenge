@@ -1,5 +1,4 @@
 import { SidebarTrigger, useSidebar } from '@shared/components/ui/sidebar';
-import logo from '/logo.png';
 import { Moon, Search, Sun } from 'lucide-react';
 import { useThemeStore } from '../../../shared/store/theme';
 import BookFilter from '@modules/library/components/BookFilter';
@@ -31,13 +30,9 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`flex items-center justify-between w-full h-16 border-b px-4 ${open ? 'md:pl-68' : ''} transition-all`}
+        className={`flex items-center justify-between gap-4 w-full h-16 border-b px-4 ${open ? 'md:pl-68' : ''} transition-all`}
       >
-        <div className='space-x-2'>
-          <SidebarTrigger />
-          <img src={logo} alt='Libris Logo' className={'h-8 inline-block'} />
-          <span className={'font-bold text-lg'}>Libris</span>
-        </div>
+        <SidebarTrigger />
 
         {isMobile ? (
           <Button onClick={() => setIsOpenDialog(true)}>

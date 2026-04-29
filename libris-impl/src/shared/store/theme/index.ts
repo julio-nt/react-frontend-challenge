@@ -3,7 +3,9 @@ import { persist } from 'zustand/middleware';
 
 interface ThemeStore {
   theme: 'light' | 'dark';
+  layout: 'list' | 'grid';
   toggleTheme: (theme: 'light' | 'dark') => void;
+  toggleLayout: (layout: 'list' | 'grid') => void;
 }
 
 export const useThemeStore = create<ThemeStore>()(
@@ -13,7 +15,11 @@ export const useThemeStore = create<ThemeStore>()(
         set({ theme });
       }
 
-      return { theme: 'light', toggleTheme };
+      function toggleLayout(layout: 'list' | 'grid') {
+        set({ layout });
+      }
+
+      return { theme: 'light', layout: 'list', toggleTheme, toggleLayout };
     },
     { name: 'theme-store' }
   )

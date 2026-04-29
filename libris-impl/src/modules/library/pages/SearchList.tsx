@@ -2,23 +2,19 @@ import { Button } from '@shared/components/ui/button';
 import BookList from '../components/BookList';
 import TableBookList from '../components/TableBookList';
 import { List, Table } from 'lucide-react';
-import { useState } from 'react';
+import { useThemeStore } from '@shared/store/theme';
 
 const Component = () => {
-  const [viewType, setViewType] = useState<'table' | 'list'>('table');
+  const { layout, toggleLayout } = useThemeStore();
 
-  function toggleViewType() {
-    setViewType((prev) => (prev === 'table' ? 'list' : 'table'));
-  }
-
-  const IconToUse = viewType === 'table' ? Table : List;
+  const IconToUse = layout === 'grid' ? Table : List;
 
   return (
     <div>
-      <Button onClick={toggleViewType}>
+      <Button onClick={() => toggleLayout(layout === 'grid' ? 'list' : 'grid')}>
         <IconToUse />
       </Button>
-      {viewType === 'table' ? <TableBookList /> : <BookList />}
+      {layout === 'grid' ? <TableBookList /> : <BookList />}
     </div>
   );
 };

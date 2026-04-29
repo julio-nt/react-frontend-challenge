@@ -13,6 +13,8 @@ import {
 import { useLocation } from '@tanstack/react-router';
 import { Bookmark, BookSearch, SquareArrowRightExit } from 'lucide-react';
 
+import logo from '/logo.png';
+
 interface SidebarProps {
   user: User | undefined;
 }
@@ -55,7 +57,10 @@ const Sidebar = ({ user }: SidebarProps) => {
   return (
     <AppSidebar>
       <SidebarHeader className='border-b h-[64px]'>
-        <p className='text-lg font-bold'>Menu</p>
+        <div className='flex gap-2 my-auto ml-4'>
+          <img src={logo} alt='Libris Logo' className={'h-8 inline-block'} />
+          <p className='text-lg font-bold'>Libris</p>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup className='space-y-2' title='Navegação'>
