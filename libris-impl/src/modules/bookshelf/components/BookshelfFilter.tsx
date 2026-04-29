@@ -22,7 +22,7 @@ const statusOptions = [
   ...Object.entries(BOOK_STATUS).map(([key, label]) => ({ label, value: key })),
 ];
 
-const BookshelfFilter = () => {
+const BookshelfFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean) => void }) => {
   const { filters } = useUrlFilter();
   const { saveSearchBookshelf } = useSearchBookshelfStore();
 
@@ -43,6 +43,7 @@ const BookshelfFilter = () => {
   function handleSearch(values: BookshelfListFilters) {
     saveSearchBookshelf(values);
     setIsOpenDialog(false);
+    setIsOpenMobile(false);
   }
 
   function handleClear() {

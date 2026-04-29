@@ -16,7 +16,7 @@ import ControlledSelect from '@shared/components/controlled/ControlledSelect';
 import { useSearch } from '@tanstack/react-router';
 import { useSearchStore } from '../../../shared/store/search';
 
-const BookFilter = () => {
+const BookFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean) => void }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { saveSearch } = useSearchStore();
@@ -59,6 +59,8 @@ const BookFilter = () => {
   }
 
   function handleDetailedSearch(values: SearchBookFilter) {
+    setIsOpenMobile(false);
+
     if (!values.intitle && !values.inauthor && !values.inpublisher) {
       handleSearch();
       return;

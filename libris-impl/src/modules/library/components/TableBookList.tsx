@@ -51,7 +51,7 @@ const TableBookList = () => {
       header: 'Título',
       cell(props) {
         const title = props.getValue();
-        if (!title) return '—';
+        if (!title) return '';
 
         const smallTitle = title.length > 50 ? `${title.slice(0, 47)}...` : title;
         return <span title={title}>{smallTitle}</span>;
@@ -64,14 +64,14 @@ const TableBookList = () => {
         const authors = props.getValue();
         const smallAuthors =
           authors && authors.length > 30 ? `${authors.slice(0, 27)}...` : authors;
-        return smallAuthors || '—';
+        return smallAuthors || '';
       },
     }),
     columnHelper.accessor((row) => row.volumeInfo.publishedDate, {
       header: 'Publicação',
       cell(props) {
         const date = props.getValue();
-        return formatDate(date) || '—';
+        return formatDate(date) || '';
       },
     }),
     columnHelper.accessor((row) => row.volumeInfo.publisher, {
