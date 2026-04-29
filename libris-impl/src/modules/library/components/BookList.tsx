@@ -7,13 +7,13 @@ import { useUrlFilter } from '../useCase/useUrlFilter';
 import InfiniteScroll from './InfiniteScroll';
 
 const BookList = () => {
-  const { filters, setFilters } = useUrlFilter();
+  const { filters } = useUrlFilter();
 
   const { data, isLoading, pagination } = useSearchBook({ filters });
 
   return (
     <div>
-      <BookFilter onFilter={setFilters} />
+      {/* <BookFilter onFilter={setFilters} /> */}
 
       {isLoading ? (
         <div className='mt-6'>

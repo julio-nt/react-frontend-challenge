@@ -1,4 +1,4 @@
-import { useBookshelfStore } from '@modules/bookshelf/store/bookshelf';
+import { useBookshelfStore } from '@shared/store/bookshelf';
 import { useMutation } from '@tanstack/react-query';
 import type { RemoveBookRequest } from './interface';
 import Query from '@core/query';

@@ -3,7 +3,7 @@ import type { Book } from '../model/Book';
 import { useState } from 'react';
 import { Button } from '@shared/components/ui/button';
 import SaveBook from './SaveBook';
-import { useBookshelfStore } from '../../bookshelf/store/bookshelf';
+import { useBookshelfStore } from '../../../shared/store/bookshelf';
 import { BOOK_STATUS } from '../model/BookStatus';
 import { useIsMobile } from '@shared/hooks/use-mobile';
 import { useNavigation } from '@core/navigation';

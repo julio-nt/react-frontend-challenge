@@ -1,7 +1,7 @@
 import { useNavigation } from '@core/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginFormData } from './schema';
-import { useRegisterStore } from '@modules/account/store/register';
+import { useRegisterStore } from '@shared/store/register';
 import { useLogin } from '@modules/account/useCase/useLogin';
 import ControlledCheckbox from '@shared/components/controlled/ControlledCheckbox';
 import ControlledInput from '@shared/components/controlled/ControlledInput';

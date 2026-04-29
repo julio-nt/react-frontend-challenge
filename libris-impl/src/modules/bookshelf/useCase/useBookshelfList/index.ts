@@ -1,7 +1,7 @@
 import { QueryKeys } from '@core/query/interface';
 import { useQuery } from '@tanstack/react-query';
 import type { BookshelfListRequest } from './interface';
-import { useBookshelfStore } from '@modules/bookshelf/store/bookshelf';
+import { useBookshelfStore } from '@shared/store/bookshelf';
 
 export function useBookshelfList({ skip, filters }: BookshelfListRequest) {
   const query = useQuery({

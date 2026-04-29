@@ -4,7 +4,7 @@ import HttpBookApi from '@core/http';
 import { QueryKeys } from '@core/query/interface';
 import { adapter } from './adapter';
 import type { PaginatedBook } from '@modules/library/model/Book';
-import { useSearchStore } from '@modules/library/store/search';
+import { useSearchStore } from '@shared/store/search';
 
 const PAGE_SIZE = 20;
 

@@ -1,4 +1,4 @@
-import { useThemeStore } from '@modules/_layout/storage/theme';
+import { useThemeStore } from '@shared/store/theme';
 import { Moon, Sun } from 'lucide-react';
 import type { MainContainerProps } from './interface';
 

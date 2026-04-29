@@ -1,6 +1,6 @@
 import { useNavigation } from '@core/navigation';
 import { registerSchema, type RegisterFormSchema } from './schema';
-import { useRegisterStore } from '@modules/account/store/register';
+import { useRegisterStore } from '@shared/store/register';
 import { useRegister } from '@modules/account/useCase/useRegister';
 import ControlledInput from '@shared/components/controlled/ControlledInput';
 import { useForm } from 'react-hook-form';

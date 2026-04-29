@@ -1,5 +1,5 @@
 import { QueryKeys } from '@core/query/interface';
-import { useAuthStore } from '@modules/account/store/auth';
+import { useAuthStore } from '@shared/store/auth';
 import { useQuery } from '@tanstack/react-query';
 
 export function useLoggedUser() {

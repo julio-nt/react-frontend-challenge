@@ -1,4 +1,4 @@
-import { useAuthStore } from '@modules/account/store/auth';
+import { useAuthStore } from '@shared/store/auth';
 import { useMutation } from '@tanstack/react-query';
 
 export function useLogout() {

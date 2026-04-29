@@ -4,7 +4,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@shared/components/ui/dialog';
 import { useForm } from 'react-hook-form';
 import type { SearchBookFilter } from '../useCase/useSearchBook/interface';
@@ -15,15 +14,15 @@ import { useEffect, useState } from 'react';
 import { useDebounce } from '@shared/hooks/use-debounce';
 import ControlledSelect from '@shared/components/controlled/ControlledSelect';
 import { useSearch } from '@tanstack/react-router';
+import { useSearchStore } from '../../../shared/store/search';
 
-interface BookFilterProps {
-  onFilter: (filters: SearchBookFilter) => void;
-}
-
-const BookFilter = ({ onFilter }: BookFilterProps) => {
+const BookFilter = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { saveSearch } = useSearchStore();
+
   const { inauthor, intitle, inpublisher, maxResults, orderBy, printType } = useSearch({
-    from: '/private/',
+    strict: false,
   });
 
   const formFilter = useForm<SearchBookFilter>({
@@ -41,7 +40,6 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
   const debouncedQ = useDebounce(formFilter.watch('q'), 500);
 
   const handleClear = () => {
-    formFilter.setValue('q', '');
     formFilter.setValue('inauthor', '');
     formFilter.setValue('intitle', '');
     formFilter.setValue('inpublisher', '');
@@ -52,15 +50,10 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
 
   function handleSearch(q?: string) {
     const qToUse = q || formFilter.getValues('q') || ' ';
-    const maxResults = formFilter.getValues('maxResults') || 20;
-    onFilter({
+    const filters = formFilter.getValues();
+    saveSearch({
+      ...filters,
       q: qToUse,
-      inauthor: '',
-      intitle: '',
-      inpublisher: '',
-      maxResults,
-      orderBy: 'relevance',
-      printType: 'all',
     });
     setIsOpen(false);
   }
@@ -71,7 +64,7 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
       return;
     }
 
-    onFilter({
+    saveSearch({
       ...values,
       q: values.q || ' ',
     });
@@ -84,8 +77,8 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <div>
-        <div className='relative'>
+      <div className='w-full max-w-[700px]'>
+        <div className='relative w-full '>
           <div className='absolute right-0 bottom-0 flex'>
             <Button
               variant={'outline'}
@@ -94,13 +87,16 @@ const BookFilter = ({ onFilter }: BookFilterProps) => {
             >
               <Search size={16} />
             </Button>
-            <DialogTrigger asChild>
-              <Button variant={'secondary'} className=' rounded-l-none'>
-                Mais Filtros
-              </Button>
-            </DialogTrigger>
+
+            <Button
+              variant={'secondary'}
+              className=' rounded-l-none'
+              onClick={() => setIsOpen(true)}
+            >
+              Mais Filtros
+            </Button>
           </div>
-          <ControlledInput label='Faça uma busca' name='q' control={formFilter.control} />
+          <ControlledInput placeholder='Faça uma busca...' name='q' control={formFilter.control} />
         </div>
 
         <DialogContent>

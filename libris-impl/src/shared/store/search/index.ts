@@ -1,10 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { SearchBookFilter } from '../useCase/useSearchBook/interface';
+import type { SearchBookFilter } from '../../../modules/library/useCase/useSearchBook/interface';
 
 interface SearchStore {
   filters: SearchBookFilter | undefined;
   saveSearch: (filters: SearchBookFilter) => void;
+  clearSearch: () => void;
 }
 
 export const useSearchStore = create<SearchStore>()(
@@ -14,7 +15,11 @@ export const useSearchStore = create<SearchStore>()(
         set({ filters });
       }
 
-      return { filters: undefined, saveSearch };
+      function clearSearch() {
+        set({ filters: undefined });
+      }
+
+      return { filters: undefined, saveSearch, clearSearch };
     },
     { name: 'search-store' }
   )

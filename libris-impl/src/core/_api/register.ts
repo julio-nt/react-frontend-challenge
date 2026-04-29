@@ -1,4 +1,4 @@
-import { useRegisterStore } from '@modules/account/store/register';
+import { useRegisterStore } from '@shared/store/register';
 
 interface Request {
   name: string;

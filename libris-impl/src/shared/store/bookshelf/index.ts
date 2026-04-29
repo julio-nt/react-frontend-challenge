@@ -1,22 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Book } from '../../library/model/Book';
-import type { BookStatus } from '../../library/model/BookStatus';
-
-interface BookshelfStore {
-  bookshelf: {
-    to_read: Book[];
-    reading: Book[];
-    read: Book[];
-  };
-  save: ({ book, status }: { book: Book; status: BookStatus }) => void;
-  remove: ({ bookId, status }: { bookId: string; status: BookStatus }) => void;
-}
+import type { BookStatus } from '../../../modules/library/model/BookStatus';
+import type { BookshelfStore, RemoveBookshelfRequest, SaveBookshelfRequest } from './interface';
 
 export const useBookshelfStore = create<BookshelfStore>()(
   persist(
     (set, get) => {
-      function save({ book, status }: { book: Book; status: BookStatus }) {
+      function save({ book, status }: SaveBookshelfRequest) {
         const currentBookShelf = Object.entries(get().bookshelf).find(([, books]) =>
           books.some((b) => b.id === book.id)
         );
@@ -37,7 +27,7 @@ export const useBookshelfStore = create<BookshelfStore>()(
         });
       }
 
-      function remove({ bookId, status }: { bookId: string; status: BookStatus }) {
+      function remove({ bookId, status }: RemoveBookshelfRequest) {
         const currentShelf = get().bookshelf?.[status] ?? [];
 
         const updatedShelf = currentShelf.filter((b) => b.id !== bookId);

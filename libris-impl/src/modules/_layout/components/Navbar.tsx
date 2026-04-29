@@ -1,9 +1,16 @@
 import { SidebarTrigger, useSidebar } from '@shared/components/ui/sidebar';
 import logo from '/logo.png';
 import { Moon, Sun } from 'lucide-react';
-import { useThemeStore } from '../storage/theme';
+import { useThemeStore } from '../../../shared/store/theme';
+import BookFilter from '@modules/library/components/BookFilter';
+import { useLocation } from '@tanstack/react-router';
+import { useEffect } from 'react';
+import { useSearchStore } from '@shared/store/search';
 
 const Navbar = () => {
+  const { pathname } = useLocation();
+  const { filters, clearSearch } = useSearchStore();
+
   const { open } = useSidebar();
 
   const { toggleTheme, theme } = useThemeStore();
@@ -15,6 +22,11 @@ const Navbar = () => {
 
   const IconThemeToUse = isDarkMode ? Sun : Moon;
 
+  useEffect(() => {
+    if (!filters) return;
+    clearSearch();
+  }, [pathname]);
+
   return (
     <nav
       className={`flex items-center justify-between w-full h-16 border-b px-4 ${open ? 'md:pl-68' : ''} transition-all`}
@@ -24,6 +36,8 @@ const Navbar = () => {
         <img src={logo} alt='Libris Logo' className={'h-8 inline-block'} />
         <span className={'font-bold text-lg'}>Libris</span>
       </div>
+
+      {pathname === '/' && <BookFilter />}
 
       <IconThemeToUse size={20} className='cursor-pointer' onClick={handleThemeToggle} />
     </nav>

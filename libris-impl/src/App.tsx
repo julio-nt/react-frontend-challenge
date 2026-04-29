@@ -1,6 +1,6 @@
 import Query from '@core/query';
 import Router from '@core/router';
-import { useThemeStore } from '@modules/_layout/storage/theme';
+import { useThemeStore } from '@shared/store/theme';
 import { Toaster } from '@shared/components/ui/sonner';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';

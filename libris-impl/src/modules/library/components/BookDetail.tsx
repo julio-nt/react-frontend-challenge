@@ -1,4 +1,4 @@
-import { useBookshelfStore } from '@modules/bookshelf/store/bookshelf';
+import { useBookshelfStore } from '@shared/store/bookshelf';
 import { useState } from 'react';
 import type { Book } from '../model/Book';
 import { BookOpen, Building2, Calendar, FileText, Globe, Tag } from 'lucide-react';
