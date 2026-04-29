@@ -25,6 +25,7 @@ export function useBookshelfFilter({
     formFilters.setValue('author', '');
     formFilters.setValue('publisher', '');
     formFilters.setValue('maxResults', 20);
+    formFilters.setValue('sortBy', 'title');
   }
 
   useEffect(() => {

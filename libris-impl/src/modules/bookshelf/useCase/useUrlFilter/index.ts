@@ -6,13 +6,14 @@ import { useSearchBookshelfStore } from '@shared/store/search-bookshelf';
 export function useUrlFilter() {
   const { filters: globalFilter } = useSearchBookshelfStore();
 
-  const filters = useSearch({ from: '/private/estantes' });
-  const navigate = useNavigate({ from: '/estantes' });
+  const filters = useSearch({ strict: false }) as Partial<BookshelfListFilters>;
+  const navigate = useNavigate();
 
   function setFilters() {
     if (!globalFilter) return;
 
     navigate({
+      to: '/estantes',
       search: (prev: BookshelfListFilters) => {
         return { ...prev, ...globalFilter };
       },

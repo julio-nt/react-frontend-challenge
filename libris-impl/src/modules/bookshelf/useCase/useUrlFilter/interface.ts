@@ -5,6 +5,6 @@ export interface BookshelfListFilters {
   status?: BookStatus | '';
   author?: string;
   publisher?: string;
-  orderBy?: 'title' | 'publishedDate';
+  sortBy?: 'title' | 'publishedDate';
   maxResults?: number;
 }

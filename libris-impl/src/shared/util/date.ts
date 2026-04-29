@@ -1,7 +1,14 @@
-export function normalizeDate(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+export function normalizeDate(date: string | undefined): string {
+  if (!date) return '';
+
+  if (date.length === 4) {
+    return `${date}-01-01`;
+  }
+  const parsedDate = new Date(date);
+
+  const year = parsedDate.getFullYear();
+  const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
+  const day = String(parsedDate.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
 

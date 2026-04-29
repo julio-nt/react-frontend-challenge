@@ -33,6 +33,7 @@ const BookshelfFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean)
       author: filters.author ?? '',
       publisher: filters.publisher ?? '',
       maxResults: filters.maxResults ?? 20,
+      sortBy: filters.sortBy ?? 'title',
     },
   });
 
@@ -118,6 +119,16 @@ const BookshelfFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean)
                   { label: '10', value: 10 },
                   { label: '15', value: 15 },
                   { label: '20', value: 20 },
+                ]}
+              />
+
+              <ControlledSelect
+                label='Ordenar por'
+                name='sortBy'
+                control={formFilters.control}
+                options={[
+                  { label: 'Título', value: 'title' },
+                  { label: 'Data de Publicação', value: 'publishedDate' },
                 ]}
               />
             </div>

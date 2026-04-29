@@ -4,15 +4,18 @@ import type { RemoveBookRequest } from './interface';
 import Query from '@core/query';
 import { QueryKeys } from '@core/query/interface';
 import type { Book } from '@modules/library/model/Book';
+import { useSearchBookshelfStore } from '@shared/store/search-bookshelf';
 
 export function useRemoveBook() {
+  const { filters } = useSearchBookshelfStore();
+
   const mutation = useMutation({
     mutationFn: async ({ bookId, status }: RemoveBookRequest) => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       useBookshelfStore.getState().remove({ bookId, status });
 
-      const chachedBookshelfList = Query.getData([QueryKeys.BOOKSHELF_LIST]);
+      const chachedBookshelfList = Query.getData([QueryKeys.BOOKSHELF_LIST, filters]);
 
       if (!chachedBookshelfList) {
         console.warn('Não foi possível encontrar dados para atualização de cache:', bookId);

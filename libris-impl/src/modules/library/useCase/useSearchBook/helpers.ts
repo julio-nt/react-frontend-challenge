@@ -2,10 +2,7 @@ import type { SearchBookRequest } from './interface';
 
 const PAGE_SIZE = 20;
 
-export function searchParamsToQuery(
-  params: URLSearchParams,
-  filters: SearchBookRequest['filters']
-) {
+function searchParamsToQuery(params: URLSearchParams, filters: SearchBookRequest['filters']) {
   if (!filters) return;
 
   let extraParams = filters.q;
@@ -23,3 +20,5 @@ export function searchParamsToQuery(
 
   return params;
 }
+
+export { searchParamsToQuery };
