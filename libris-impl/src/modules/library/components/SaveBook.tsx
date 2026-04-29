@@ -10,15 +10,15 @@ import { useSaveBook } from '../../bookshelf/useCase/useSaveBook';
 import { BOOK_STATUS, type BookStatus } from '../model/BookStatus';
 import { useRemoveBook } from '../../bookshelf/useCase/useRemoveBook';
 import { toast } from '@core/toast';
+import { getBookStatus } from '@shared/util/book';
 
 interface SaveBookProps {
   book: Book | undefined;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  currentShelf: BookStatus | null;
 }
 
-const SaveBook = ({ book, isOpen, setIsOpen, currentShelf }: SaveBookProps) => {
+const SaveBook = ({ book, isOpen, setIsOpen }: SaveBookProps) => {
   const { mutate: saveBook, isLoading: isLoadingSave } = useSaveBook();
   const { mutate: removeBook, isLoading: isLoadingRemove } = useRemoveBook();
 
@@ -28,6 +28,8 @@ const SaveBook = ({ book, isOpen, setIsOpen, currentShelf }: SaveBookProps) => {
     book?.volumeInfo.title && book?.volumeInfo.title.length > 30
       ? book.volumeInfo.title.slice(0, 30) + '...'
       : book?.volumeInfo.title;
+
+  const currentShelf = book ? getBookStatus(book.id) : null;
 
   function handleSave(status: BookStatus) {
     if (!book || isLoadingAll) return;

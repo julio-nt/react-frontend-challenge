@@ -7,6 +7,7 @@ import type { PaginatedBook } from '@modules/library/model/Book';
 import { useSearchStore } from '@shared/store/search';
 import { searchParamsToQuery } from './helpers';
 import { env } from '@shared/util/env';
+import { useMemo } from 'react';
 
 export function useSearchBook({ skip, filters }: SearchBookRequest) {
   const query = useInfiniteQuery<
@@ -58,7 +59,10 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
     },
   });
 
-  const allItems = query.data?.pages.flatMap((page) => page?.items ?? []) ?? [];
+  const allItems = useMemo(
+    () => query.data?.pages.flatMap((page) => page?.items ?? []) ?? [],
+    [query.data?.pages]
+  );
   const totalItems = query.data?.pages[0]?.totalItems ?? 0;
 
   const pagination = {
