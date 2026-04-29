@@ -2,11 +2,7 @@ import type { Book } from '@modules/library/model/Book';
 import type { BookStatus } from '@modules/library/model/BookStatus';
 
 export interface BookshelfStore {
-  bookshelf: {
-    to_read: Book[];
-    reading: Book[];
-    read: Book[];
-  };
+  bookshelf: Bookshelf;
   save: ({ book, status }: { book: Book; status: BookStatus }) => void;
   remove: ({ bookId, status }: { bookId: string; status: BookStatus }) => void;
 }
@@ -19,4 +15,10 @@ export interface SaveBookshelfRequest {
 export interface RemoveBookshelfRequest {
   bookId: string;
   status: BookStatus;
+}
+
+export interface Bookshelf {
+  to_read: Book[];
+  reading: Book[];
+  read: Book[];
 }

@@ -5,8 +5,7 @@ import { QueryKeys } from '@core/query/interface';
 import { adapter } from './adapter';
 import type { PaginatedBook } from '@modules/library/model/Book';
 import { useSearchStore } from '@shared/store/search';
-
-const PAGE_SIZE = 20;
+import { searchParamsToQuery } from './helpers';
 
 export function useSearchBook({ skip, filters }: SearchBookRequest) {
   const query = useInfiniteQuery<
@@ -34,20 +33,12 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
 
       const url = 'https://www.googleapis.com/books/v1/volumes';
       const params = new URLSearchParams();
-      const fullTextSearch = searchParamsToQuery(filters);
 
-      params.append('maxResults', filters.maxResults?.toString() ?? String(PAGE_SIZE));
-      params.append('printType', filters.printType ?? 'all');
-      params.append('orderBy', filters.orderBy ?? 'relevance');
-      params.append('projection', 'full');
-      params.append('startIndex', String(pageParam));
-      params.append('q', fullTextSearch);
+      params.append('startIndex', pageParam.toString());
 
-      if (filters.intitle) params.append('intitle', filters.intitle);
-      if (filters.inauthor) params.append('inauthor', filters.inauthor);
-      if (filters.inpublisher) params.append('inpublisher', filters.inpublisher);
+      const newParams = searchParamsToQuery(params, filters);
 
-      const response = await HttpBookApi.get<SearchBookResponse>(url, params);
+      const response = await HttpBookApi.get<SearchBookResponse>(url, newParams);
 
       const adaptedItems = response.items?.map((item) => {
         const book = adapter(item);
@@ -80,15 +71,6 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
     data: allItems,
     isLoading: query.isLoading,
     pagination,
+    error: query.isError,
   };
-}
-
-function searchParamsToQuery(params: SearchBookRequest['filters']) {
-  let extraParams = params?.q || '';
-
-  if (params?.intitle) extraParams += `+intitle:${params.intitle}`;
-  if (params?.inauthor) extraParams += `+inauthor:${params.inauthor}`;
-  if (params?.inpublisher) extraParams += `+inpublisher:${params.inpublisher}`;
-
-  return `${extraParams}`;
 }

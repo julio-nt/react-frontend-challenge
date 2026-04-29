@@ -21,13 +21,13 @@ const BookFilter = () => {
 
   const { saveSearch } = useSearchStore();
 
-  const { inauthor, intitle, inpublisher, maxResults, orderBy, printType } = useSearch({
+  const { q, inauthor, intitle, inpublisher, maxResults, orderBy, printType } = useSearch({
     strict: false,
   });
 
   const formFilter = useForm<SearchBookFilter>({
     defaultValues: {
-      q: '',
+      q: q || '',
       inauthor: inauthor || '',
       intitle: intitle || '',
       inpublisher: inpublisher || '',
@@ -48,8 +48,8 @@ const BookFilter = () => {
     formFilter.setValue('printType', 'all');
   };
 
-  function handleSearch(q?: string) {
-    const qToUse = q || formFilter.getValues('q') || ' ';
+  function handleSearch() {
+    const qToUse = debouncedQ || formFilter.getValues('q') || ' ';
     const filters = formFilter.getValues();
     saveSearch({
       ...filters,
@@ -60,7 +60,7 @@ const BookFilter = () => {
 
   function handleDetailedSearch(values: SearchBookFilter) {
     if (!values.intitle && !values.inauthor && !values.inpublisher) {
-      handleSearch(values.q || ' ');
+      handleSearch();
       return;
     }
 
@@ -72,7 +72,7 @@ const BookFilter = () => {
   }
 
   useEffect(() => {
-    if (debouncedQ) handleSearch(debouncedQ);
+    if (debouncedQ) handleSearch();
   }, [debouncedQ]);
 
   return (

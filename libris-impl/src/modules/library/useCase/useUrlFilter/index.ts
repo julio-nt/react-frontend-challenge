@@ -22,6 +22,7 @@ export function useUrlFilter() {
       });
       return;
     }
+
     navigate({
       search: (prev: SearchBookFilter) => {
         return { ...prev, ...globalFilter };
@@ -33,5 +34,5 @@ export function useUrlFilter() {
     setFilters();
   }, [globalFilter]);
 
-  return { filters, setFilters };
+  return { filters };
 }

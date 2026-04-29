@@ -1,20 +1,25 @@
 import { useSearchBook } from '../useCase/useSearchBook';
-import BookFilter from './BookFilter';
 import BookListSkeleton from './BookListSkeleton';
 import BookItem from './BookItem';
 import { Search } from 'lucide-react';
 import { useUrlFilter } from '../useCase/useUrlFilter';
 import InfiniteScroll from './InfiniteScroll';
+import { useEffect } from 'react';
+import { toast } from '@core/toast';
 
 const BookList = () => {
   const { filters } = useUrlFilter();
 
-  const { data, isLoading, pagination } = useSearchBook({ filters });
+  const { data, isLoading, pagination, error } = useSearchBook({ filters });
+
+  useEffect(() => {
+    if (error) {
+      toast.error('Ocorreu um erro ao buscar os livros. Por favor, tente novamente.');
+    }
+  }, [error]);
 
   return (
     <div>
-      {/* <BookFilter onFilter={setFilters} /> */}
-
       {isLoading ? (
         <div className='mt-6'>
           <BookListSkeleton />

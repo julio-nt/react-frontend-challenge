@@ -1,5 +1,4 @@
 import BookItem from '@modules/library/components/BookItem';
-import BookshelfFilter from './BookshelfFilter';
 import { useBookshelfList } from '../useCase/useBookshelfList';
 import { BookDashed } from 'lucide-react';
 import { useUrlFilter } from '../useCase/useUrlFilter';
@@ -11,7 +10,7 @@ const BookShelfList = () => {
 
   return (
     <div className='space-y-4'>
-      <BookshelfFilter />
+      {/* <BookshelfFilter /> */}
       {isLoading ? (
         <BookListSkeleton />
       ) : data.length === 0 ? (

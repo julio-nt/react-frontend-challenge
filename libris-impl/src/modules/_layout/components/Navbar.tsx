@@ -4,12 +4,11 @@ import { Moon, Sun } from 'lucide-react';
 import { useThemeStore } from '../../../shared/store/theme';
 import BookFilter from '@modules/library/components/BookFilter';
 import { useLocation } from '@tanstack/react-router';
-import { useEffect } from 'react';
-import { useSearchStore } from '@shared/store/search';
+import BookshelfFilter from '@modules/bookshelf/components/BookshelfFilter';
+import type { NavigationLinks } from '@core/navigation';
 
 const Navbar = () => {
-  const { pathname } = useLocation();
-  const { filters, clearSearch } = useSearchStore();
+  const { pathname }: { pathname: NavigationLinks } = useLocation();
 
   const { open } = useSidebar();
 
@@ -22,11 +21,6 @@ const Navbar = () => {
 
   const IconThemeToUse = isDarkMode ? Sun : Moon;
 
-  useEffect(() => {
-    if (!filters) return;
-    clearSearch();
-  }, [pathname]);
-
   return (
     <nav
       className={`flex items-center justify-between w-full h-16 border-b px-4 ${open ? 'md:pl-68' : ''} transition-all`}
@@ -38,6 +32,7 @@ const Navbar = () => {
       </div>
 
       {pathname === '/' && <BookFilter />}
+      {pathname === '/estantes' && <BookshelfFilter />}
 
       <IconThemeToUse size={20} className='cursor-pointer' onClick={handleThemeToggle} />
     </nav>
