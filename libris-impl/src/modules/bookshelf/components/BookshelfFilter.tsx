@@ -3,10 +3,8 @@ import ControlledInput from '@shared/components/controlled/ControlledInput';
 import { useForm } from 'react-hook-form';
 import { useUrlFilter } from '../useCase/useUrlFilter';
 import { BOOK_STATUS } from '@modules/library/model/BookStatus';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { BookshelfListFilters } from '../useCase/useUrlFilter/interface';
-import { useDebounce } from '@shared/hooks/use-debounce';
-import { useSearchBookshelfStore } from '@shared/store/search-bookshelf';
 import { Button } from '@shared/components/ui/button';
 import { Search } from 'lucide-react';
 import {
@@ -16,6 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@shared/components/ui/dialog';
+import { useBookshelfFilter } from '../useCase/useBookshelfFilter';
 
 const statusOptions = [
   { label: 'Todos', value: '' },
@@ -24,7 +23,6 @@ const statusOptions = [
 
 const BookshelfFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean) => void }) => {
   const { filters } = useUrlFilter();
-  const { saveSearchBookshelf } = useSearchBookshelfStore();
 
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
@@ -38,28 +36,11 @@ const BookshelfFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean)
     },
   });
 
-  const debouncedName = useDebounce(formFilters.watch('name'), 500);
-
-  function handleSearch(values: BookshelfListFilters) {
-    saveSearchBookshelf(values);
-    setIsOpenDialog(false);
-    setIsOpenMobile(false);
-  }
-
-  function handleClear() {
-    formFilters.setValue('name', '');
-    formFilters.setValue('status', '');
-    formFilters.setValue('author', '');
-    formFilters.setValue('publisher', '');
-    formFilters.setValue('maxResults', 20);
-  }
-
-  useEffect(() => {
-    if (isOpenDialog) return;
-    const values = formFilters.getValues();
-
-    saveSearchBookshelf({ name: debouncedName, ...values });
-  }, [debouncedName]);
+  const { handleSearch, handleClear } = useBookshelfFilter({
+    formFilters,
+    dialogState: { isOpen: isOpenDialog, setIsOpen: setIsOpenDialog },
+    dialogStateMobile: { isOpen: false, setIsOpen: setIsOpenMobile },
+  });
 
   return (
     <div className='w-full max-w-[700px]'>

@@ -8,74 +8,38 @@ import {
 import { useForm } from 'react-hook-form';
 import type { SearchBookFilter } from '../useCase/useSearchBook/interface';
 import ControlledInput from '@shared/components/controlled/ControlledInput';
-import { Search } from 'lucide-react';
+import { CircleX, Search } from 'lucide-react';
 import { Button } from '@shared/components/ui/button';
-import { useEffect, useState } from 'react';
-import { useDebounce } from '@shared/hooks/use-debounce';
+import { useState } from 'react';
 import ControlledSelect from '@shared/components/controlled/ControlledSelect';
 import { useSearch } from '@tanstack/react-router';
-import { useSearchStore } from '../../../shared/store/search';
+import { useBookFilter } from '../useCase/useBookFilter';
 
 const BookFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean) => void }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { saveSearch } = useSearchStore();
-
-  const { q, inauthor, intitle, inpublisher, maxResults, orderBy, printType } = useSearch({
+  const params: SearchBookFilter = useSearch({
     strict: false,
   });
 
   const formFilter = useForm<SearchBookFilter>({
     defaultValues: {
-      q: q || '',
-      inauthor: inauthor || '',
-      intitle: intitle || '',
-      inpublisher: inpublisher || '',
-      maxResults: maxResults || 20,
-      orderBy: orderBy || 'relevance',
-      printType: printType || 'all',
+      q: params.q || '',
+      inauthor: params.inauthor || '',
+      intitle: params.intitle || '',
+      inpublisher: params.inpublisher || '',
+      maxResults: params.maxResults || 20,
+      orderBy: params.orderBy || 'relevance',
+      printType: params.printType || 'all',
     },
   });
 
-  const debouncedQ = useDebounce(formFilter.watch('q'), 500);
-
-  const handleClear = () => {
-    formFilter.setValue('inauthor', '');
-    formFilter.setValue('intitle', '');
-    formFilter.setValue('inpublisher', '');
-    formFilter.setValue('maxResults', 20);
-    formFilter.setValue('orderBy', 'relevance');
-    formFilter.setValue('printType', 'all');
-  };
-
-  function handleSearch() {
-    const qToUse = debouncedQ || formFilter.getValues('q') || ' ';
-    const filters = formFilter.getValues();
-    saveSearch({
-      ...filters,
-      q: qToUse,
-    });
-    setIsOpen(false);
-  }
-
-  function handleDetailedSearch(values: SearchBookFilter) {
-    setIsOpenMobile(false);
-
-    if (!values.intitle && !values.inauthor && !values.inpublisher) {
-      handleSearch();
-      return;
-    }
-
-    saveSearch({
-      ...values,
-      q: values.q || ' ',
-    });
-    setIsOpen(false);
-  }
-
-  useEffect(() => {
-    if (debouncedQ) handleSearch();
-  }, [debouncedQ]);
+  const { handleClear, handleClearAll, handleSearch, handleDetailedSearch } = useBookFilter({
+    params,
+    formFilter,
+    setIsOpen,
+    setIsOpenMobile,
+  });
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -83,11 +47,19 @@ const BookFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean) => v
         <div className='relative w-full '>
           <div className='absolute right-0 bottom-0 flex'>
             <Button
-              variant={'outline'}
+              variant={'secondary'}
               className='w-16 rounded-r-none rounded-l-none'
               onClick={() => handleSearch()}
             >
               <Search size={16} />
+            </Button>
+
+            <Button
+              variant={'secondary'}
+              className='w-16 rounded-r-none rounded-l-none'
+              onClick={() => handleClearAll()}
+            >
+              <CircleX size={16} />
             </Button>
 
             <Button
