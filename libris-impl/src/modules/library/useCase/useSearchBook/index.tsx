@@ -6,6 +6,7 @@ import { adapter } from './adapter';
 import type { PaginatedBook } from '@modules/library/model/Book';
 import { useSearchStore } from '@shared/store/search';
 import { searchParamsToQuery } from './helpers';
+import { env } from '@shared/util/env';
 
 export function useSearchBook({ skip, filters }: SearchBookRequest) {
   const query = useInfiniteQuery<
@@ -31,7 +32,7 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
     queryFn: async ({ pageParam }) => {
       if (!filters?.q) return null;
 
-      const url = 'https://www.googleapis.com/books/v1/volumes';
+      const url = `${env.GOOGLE_BOOKS_API_URL}/volumes`;
       const params = new URLSearchParams();
 
       params.append('startIndex', pageParam.toString());

@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { adapter } from '../useSearchBook/adapter';
 import type { BookApi } from '@modules/library/model/BookApi';
 import { QueryKeys } from '@core/query/interface';
+import { env } from '@shared/util/env';
 
 export function useBookById({ bookId }: { bookId: string | undefined }) {
   const query = useQuery({
@@ -10,7 +11,7 @@ export function useBookById({ bookId }: { bookId: string | undefined }) {
     enabled: !!bookId,
     retry: false,
     queryFn: async () => {
-      const url = 'https://www.googleapis.com/books/v1/volumes';
+      const url = `${env.GOOGLE_BOOKS_API_URL}/volumes`;
 
       const response = await HttpBookApi.get<BookApi>(`${url}/${bookId}`);
 
