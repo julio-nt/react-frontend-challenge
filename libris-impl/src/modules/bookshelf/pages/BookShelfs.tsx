@@ -10,8 +10,8 @@ const Component = () => {
   const IconToUse = layout === 'grid' ? Table : List;
 
   return (
-    <div>
-      <h1 className='text-2xl font-bold mb-4'>Minha Estante</h1>
+    <div className='space-y-4'>
+      <h1 className='text-2xl font-bold'>Minha Estante</h1>
 
       <Button onClick={() => toggleLayout(layout === 'grid' ? 'list' : 'grid')}>
         <IconToUse />

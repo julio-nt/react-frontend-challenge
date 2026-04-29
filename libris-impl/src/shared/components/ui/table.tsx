@@ -14,7 +14,7 @@ function TableTanstack<T>({ data, columns, onRowClick }: TableTanstackProps<T>) 
   });
 
   return (
-    <div className='mt-6 rounded-md border overflow-x-auto'>
+    <div className='rounded-md border overflow-x-auto'>
       <table className='w-full min-w-max text-sm'>
         <thead className='bg-muted text-muted-foreground'>
           {table.getHeaderGroups().map((headerGroup) => (

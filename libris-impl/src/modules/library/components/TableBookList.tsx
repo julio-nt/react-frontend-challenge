@@ -1,4 +1,3 @@
-import { createColumnHelper } from '@tanstack/react-table';
 import type { Book } from '../model/Book';
 import { Search } from 'lucide-react';
 import { useUrlFilter } from '../useCase/useUrlFilter';
@@ -10,10 +9,7 @@ import InfiniteScroll from './InfiniteScroll';
 import SaveBook from './SaveBook';
 import { TableTanstack } from '@shared/components/ui/table';
 import { useNavigation } from '@core/navigation';
-import { Button } from '@shared/components/ui/button';
-import { formatDate } from '@shared/util/date';
-import { BOOK_STATUS } from '../model/BookStatus';
-import { getBookStatus } from '@shared/util/book';
+import { useBookTable } from '@shared/hooks/use-book-table';
 
 const TableBookList = () => {
   const { goTo } = useNavigation();
@@ -24,80 +20,7 @@ const TableBookList = () => {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
 
-  const columnHelper = createColumnHelper<Book>();
-
-  const columns = [
-    columnHelper.display({
-      id: 'cover',
-      header: '',
-      size: 64,
-      cell: (props) => {
-        const thumbnail = props.row.original.volumeInfo.imageLinks?.smallThumbnail;
-        return thumbnail ? (
-          <img
-            src={thumbnail}
-            alt={props.row.original.volumeInfo.title}
-            className='w-10 h-14 object-cover rounded'
-          />
-        ) : (
-          <div className='w-10 h-14 bg-muted rounded flex items-center justify-center'>
-            <Search className='h-4 w-4 text-muted-foreground' />
-          </div>
-        );
-      },
-    }),
-    columnHelper.accessor((row) => row.volumeInfo.title, {
-      id: 'title',
-      header: 'Título',
-      cell(props) {
-        const title = props.getValue();
-        if (!title) return '';
-
-        const smallTitle = title.length > 50 ? `${title.slice(0, 47)}...` : title;
-        return <span title={title}>{smallTitle}</span>;
-      },
-    }),
-    columnHelper.accessor((row) => row.volumeInfo.authors?.join(', '), {
-      id: 'authors',
-      header: 'Autor(es)',
-      cell(props) {
-        const authors = props.getValue();
-        const smallAuthors =
-          authors && authors.length > 30 ? `${authors.slice(0, 27)}...` : authors;
-        return smallAuthors || '';
-      },
-    }),
-    columnHelper.accessor((row) => row.volumeInfo.publishedDate, {
-      header: 'Publicação',
-      cell(props) {
-        const date = props.getValue();
-        return formatDate(date) || '';
-      },
-    }),
-    columnHelper.accessor((row) => row.volumeInfo.publisher, {
-      id: 'publisher',
-      header: 'Editora',
-    }),
-    columnHelper.display({
-      id: 'actions',
-      header: '',
-      cell: (info) => {
-        const bookId = info.row.original.id;
-        const currentShelf = getBookStatus(bookId);
-
-        return (
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleOpenSave(info.row.original);
-            }}
-          >
-            {currentShelf ? BOOK_STATUS[currentShelf] : 'Salvar'}
-          </Button>
-        );
-      },
-    }),
-  ];
+  const { columns } = useBookTable({ onOpenSave: handleOpenSave });
 
   function handleOpenSave(book: Book) {
     setSelectedBook(book);
@@ -120,7 +43,7 @@ const TableBookList = () => {
 
   if (!pagination.totalItems) {
     return (
-      <div className='flex flex-col items-center text-muted-foreground gap-4 mt-8'>
+      <div className='flex flex-col items-center text-muted-foreground gap-4'>
         <Search size={48} />
         <p>Faça uma busca para encontrar livros</p>
       </div>
