@@ -2,13 +2,15 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { BookStatus } from '../../../modules/library/model/BookStatus';
 import type { BookshelfStore, RemoveBookshelfRequest, SaveBookshelfRequest } from './interface';
+import type { Book } from '@modules/library/model/Book';
 
 export const useBookshelfStore = create<BookshelfStore>()(
   persist(
     (set, get) => {
       function save({ book, status }: SaveBookshelfRequest) {
-        const currentBookShelf = Object.entries(get().bookshelf).find(([, books]) =>
-          books.some((b) => b.id === book.id)
+        const bookshelf = get().bookshelf;
+        const currentBookShelf = Object.entries(bookshelf).find(([, books]) =>
+          books.some((b: Book) => b.id === book.id)
         );
 
         set((state) => {
