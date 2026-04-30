@@ -105,7 +105,6 @@ const BookItem = ({ book }: BookItemProps) => {
         book={book}
         isOpen={isSaveDialogOpen}
         setIsOpen={setIsSaveDialogOpen}
-        currentShelf={currentShelf}
       />
     </div>
   );

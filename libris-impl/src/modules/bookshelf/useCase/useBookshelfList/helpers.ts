@@ -28,9 +28,18 @@ function handleFiltering(data: Bookshelf, filters: BookshelfListFilters) {
   }
 
   if (sortBy) {
-    filteredResult = filteredResult.sort((a, b) =>
-      (a.volumeInfo?.[sortBy] || '').localeCompare(b.volumeInfo?.[sortBy] || '')
-    );
+    if (sortBy === 'status') {
+      filteredResult = filteredResult.sort((a, b) => {
+        const statusOrder = { to_read: 0, reading: 1, read: 2 };
+        const aStatus = a.status ? statusOrder[a.status] : -1;
+        const bStatus = b.status ? statusOrder[b.status] : -1;
+        return aStatus - bStatus;
+      });
+    } else {
+      filteredResult = filteredResult.sort((a, b) =>
+        (a.volumeInfo?.[sortBy] || '').localeCompare(b.volumeInfo?.[sortBy] || '')
+      );
+    }
   }
 
   return filteredResult;

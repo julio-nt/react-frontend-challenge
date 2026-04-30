@@ -116,7 +116,6 @@ const BookDetail = ({ book }: { book: Book }) => {
         book={book}
         isOpen={isSaveDialogOpen}
         setIsOpen={setIsSaveDialogOpen}
-        currentShelf={currentShelf}
       />
     </>
   );

@@ -115,7 +115,6 @@ const BookshelfFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean)
                 name='maxResults'
                 control={formFilters.control}
                 options={[
-                  { label: '5', value: 5 },
                   { label: '10', value: 10 },
                   { label: '15', value: 15 },
                   { label: '20', value: 20 },
@@ -129,6 +128,7 @@ const BookshelfFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean)
                 options={[
                   { label: 'Título', value: 'title' },
                   { label: 'Data de Publicação', value: 'publishedDate' },
+                  { label: 'Status', value: 'status' },
                 ]}
               />
             </div>

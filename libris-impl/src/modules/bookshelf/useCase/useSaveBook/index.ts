@@ -3,11 +3,13 @@ import { useMutation } from '@tanstack/react-query';
 import type { SaveBookRequest } from './interface';
 
 export function useSaveBook() {
+  const { save } = useBookshelfStore();
+
   const mutation = useMutation({
     mutationFn: async ({ book, status }: SaveBookRequest) => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      useBookshelfStore.getState().save({ book, status });
+      save({ book, status });
 
       return true;
     },

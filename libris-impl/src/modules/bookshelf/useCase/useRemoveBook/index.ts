@@ -8,12 +8,13 @@ import { useUrlFilter } from '../useUrlFilter';
 
 export function useRemoveBook() {
   const { filters } = useUrlFilter();
+  const { remove } = useBookshelfStore();
 
   const mutation = useMutation({
     mutationFn: async ({ bookId, status }: RemoveBookRequest) => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      useBookshelfStore.getState().remove({ bookId, status });
+      remove({ bookId, status });
 
       const chachedBookshelfList = Query.getData([QueryKeys.BOOKSHELF_LIST, filters]);
 
@@ -24,6 +25,7 @@ export function useRemoveBook() {
 
       Query.setData<SetDataQuery<Book[]>>([QueryKeys.BOOKSHELF_LIST, filters], (prev) => {
         if (!prev) return prev;
+
         const updatedBooks = prev.pages[0].filter((book) => book.id !== bookId);
 
         return { ...prev, pages: [updatedBooks] };
