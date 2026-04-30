@@ -14,9 +14,7 @@ export function useUrlFilter() {
       navigate({
         search: {
           q: '',
-          maxResults: newValues.maxResults,
-          orderBy: newValues.orderBy,
-          printType: newValues.printType,
+          ...newValues,
         },
       });
       return;

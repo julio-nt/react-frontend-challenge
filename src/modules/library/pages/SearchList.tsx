@@ -1,18 +1,16 @@
-import { Button } from '@shared/components/ui/button';
 import BookList from '../components/BookList';
 import TableBookList from '../components/TableBookList';
-import { List, Search, Table } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useThemeStore } from '@shared/store/theme';
 import { useSearchBook } from '../useCase/useSearchBook';
 import { useUrlFilter } from '../useCase/useUrlFilter';
 import { useEffect } from 'react';
 import { toast } from '@core/toast';
 import InfiniteScroll from '../../../shared/components/ui/InfiniteScroll';
+import ToggleLayout from '@modules/bookshelf/components/ToggleLayout';
 
 const Component = () => {
   const { layout, toggleLayout } = useThemeStore();
-
-  const IconToUse = layout === 'grid' ? Table : List;
 
   const { filters } = useUrlFilter();
 
@@ -37,9 +35,7 @@ const Component = () => {
 
   return (
     <div className='space-y-4'>
-      <Button onClick={() => toggleLayout(layout === 'grid' ? 'list' : 'grid')}>
-        <IconToUse />
-      </Button>
+      <ToggleLayout layout={layout} onToggle={toggleLayout} />
 
       <InfiniteScroll
         onLoadMore={pagination.fetchNextPage}

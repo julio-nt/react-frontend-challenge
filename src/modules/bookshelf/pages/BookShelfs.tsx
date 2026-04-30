@@ -2,7 +2,7 @@ import { Button } from '@shared/components/ui/button';
 import BookShelfList from '../components/BookshelfList';
 import TableBookshelfList from '../components/TableBookshelfList';
 import { useThemeStore } from '@shared/store/theme';
-import { ArrowUpRight, BookDashed, List, Table } from 'lucide-react';
+import { ArrowUpRight, BookDashed } from 'lucide-react';
 import { useBookshelfList } from '../useCase/useBookshelfList';
 import { toast } from '@core/toast';
 import { useEffect } from 'react';
@@ -12,6 +12,7 @@ import { useUrlFilter } from '../useCase/useUrlFilter';
 import { BOOK_STATUS } from '@modules/book/model/BookStatus';
 import { useNavigation } from '@core/navigation';
 import { useBookshelfStore } from '@shared/store/bookshelf';
+import ToggleLayout from '../components/ToggleLayout';
 
 const Component = () => {
   const { goTo } = useNavigation();
@@ -20,14 +21,12 @@ const Component = () => {
   const { filters } = useUrlFilter();
   const { bookshelf } = useBookshelfStore();
 
+  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useBookshelfList({ filters });
+
   const totalCount = filters.status
     ? bookshelf.filter((book) => book.status === filters.status).length
     : bookshelf.length;
-
-  const IconToUse = layout === 'grid' ? Table : List;
-
-  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useBookshelfList({ filters });
 
   useEffect(() => {
     if (error) {
@@ -44,16 +43,15 @@ const Component = () => {
             {BOOK_STATUS[filters.status]}
           </p>
         )}
-        {totalCount && totalCount > 0 && !isLoading && (
+
+        {totalCount > 0 && !isLoading && (
           <p className='text-sm text-muted-foreground'>
             {totalCount} {totalCount === 1 ? 'livro' : 'livros'}
           </p>
         )}
       </div>
 
-      <Button onClick={() => toggleLayout(layout === 'grid' ? 'list' : 'grid')}>
-        <IconToUse />
-      </Button>
+      <ToggleLayout layout={layout} onToggle={toggleLayout} />
 
       {isLoading && <LoadingBookshelf layout={layout} />}
 

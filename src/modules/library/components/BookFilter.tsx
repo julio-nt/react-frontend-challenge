@@ -127,7 +127,7 @@ const BookFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean) => v
               <Button type='button' variant={'destructive'} onClick={handleClear}>
                 Limpar Filtros
               </Button>
-              <Button variant={'outline'}>Aplicar Filtros</Button>
+              <Button type='submit' variant={'outline'}>Aplicar Filtros</Button>
             </div>
           </form>
         </DialogContent>

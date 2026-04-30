@@ -45,7 +45,6 @@ describe('useBookshelfStore — save', () => {
     useBookshelfStore.getState().save({ book, status: 'read' });
 
     const { bookshelf } = useBookshelfStore.getState();
-    console.log('Bookshelf:', bookshelf);
     expect(bookshelf).toHaveLength(1);
   });
 });
