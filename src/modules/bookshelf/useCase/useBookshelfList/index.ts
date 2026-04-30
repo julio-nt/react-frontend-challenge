@@ -8,19 +8,13 @@ import { handleFiltering } from './helpers';
 const PAGE_SIZE = 10;
 
 export function useBookshelfList({ skip, filters }: BookshelfListRequest) {
-  const query = useInfiniteQuery<
-    { data: Book[]; totalItems: number },
-    Error,
-    InfiniteData<{ data: Book[]; totalItems: number }>,
-    unknown[],
-    number
-  >({
+  const query = useInfiniteQuery<Book[], Error, InfiniteData<Book[]>, unknown[], number>({
     queryKey: [QueryKeys.BOOKSHELF_LIST, filters],
     enabled: !skip,
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
-      const loadedCount = allPages.reduce((acc, page) => acc + page.data.length, 0);
-      if (lastPage.data.length < (filters?.maxResults || PAGE_SIZE)) return undefined;
+      const loadedCount = allPages.reduce((acc, page) => acc + page.length, 0);
+      if (lastPage.length < (filters?.maxResults || PAGE_SIZE)) return undefined;
       return loadedCount;
     },
     queryFn: async ({ pageParam }) => {
@@ -30,15 +24,7 @@ export function useBookshelfList({ skip, filters }: BookshelfListRequest) {
 
         const allFiltered = handleFiltering(bookshelf, filters || {});
 
-        const paginatedData = allFiltered.slice(
-          pageParam,
-          pageParam + (filters?.maxResults || PAGE_SIZE)
-        );
-
-        return {
-          data: paginatedData,
-          totalItems: allFiltered.length,
-        };
+        return allFiltered.slice(pageParam, pageParam + (filters?.maxResults || PAGE_SIZE));
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
         throw new Error(`Erro ao buscar estantes: ${errorMessage}`);
@@ -46,16 +32,14 @@ export function useBookshelfList({ skip, filters }: BookshelfListRequest) {
     },
   });
 
-  const data = query.data?.pages.flatMap((page) => page.data) ?? [];
+  const data = query.data?.pages.flat() ?? [];
 
   return {
     data,
-    totalItems: query.data?.pages[0].totalItems ?? 0,
     isLoading: query.isPending,
     error: query.error,
     fetchNextPage: query.fetchNextPage,
     hasNextPage: query.hasNextPage,
     isFetchingNextPage: query.isFetchingNextPage,
-    isRefetching: query.isRefetching,
   };
 }

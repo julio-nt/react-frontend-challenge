@@ -11,27 +11,23 @@ import LoadingBookshelf from '../components/LoadingBookshelf';
 import { useUrlFilter } from '../useCase/useUrlFilter';
 import { BOOK_STATUS } from '@modules/book/model/BookStatus';
 import { useNavigation } from '@core/navigation';
+import { useBookshelfStore } from '@shared/store/bookshelf';
 
 const Component = () => {
   const { goTo } = useNavigation();
   const { layout, toggleLayout } = useThemeStore();
 
   const { filters } = useUrlFilter();
+  const { bookshelf } = useBookshelfStore();
+
+  const totalCount = filters.status
+    ? bookshelf.filter((book) => book.status === filters.status).length
+    : bookshelf.length;
 
   const IconToUse = layout === 'grid' ? Table : List;
 
-  const {
-    data,
-    totalItems,
-    isLoading,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isRefetching,
-  } = useBookshelfList({ filters });
-
-  const isLoadingAll = isLoading || isRefetching;
+  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useBookshelfList({ filters });
 
   useEffect(() => {
     if (error) {
@@ -48,9 +44,9 @@ const Component = () => {
             {BOOK_STATUS[filters.status]}
           </p>
         )}
-        {totalItems > 0 && !isLoadingAll && (
+        {totalCount && totalCount > 0 && !isLoading && (
           <p className='text-sm text-muted-foreground'>
-            {totalItems} {totalItems === 1 ? 'livro' : 'livros'}
+            {totalCount} {totalCount === 1 ? 'livro' : 'livros'}
           </p>
         )}
       </div>
@@ -59,9 +55,9 @@ const Component = () => {
         <IconToUse />
       </Button>
 
-      {isLoadingAll && <LoadingBookshelf layout={layout} />}
+      {isLoading && <LoadingBookshelf layout={layout} />}
 
-      {!isLoadingAll && data.length === 0 && (
+      {!isLoading && totalCount === 0 && (
         <div className='flex flex-col items-center text-muted-foreground gap-4 mt-8'>
           <BookDashed size={48} />
           <p>Nenhum livro salvo na estante, adicione livros para vê-los aqui.</p>
@@ -71,7 +67,7 @@ const Component = () => {
         </div>
       )}
 
-      {!isLoadingAll && data.length > 0 && (
+      {!isLoading && totalCount > 0 && (
         <InfiniteScroll
           onLoadMore={fetchNextPage}
           hasMore={hasNextPage}
