@@ -1,10 +1,10 @@
 import { useBookshelfStore } from '@shared/store/bookshelf';
 import { useState } from 'react';
-import type { Book } from '../model/Book';
+import type { Book } from '../../book/model/Book';
 import { BookOpen, Building2, Calendar, FileText, Globe, Tag } from 'lucide-react';
 import { formatDate } from '@shared/util/date';
 import { Button } from '@shared/components/ui/button';
-import { BOOK_STATUS } from '../model/BookStatus';
+import { BOOK_STATUS } from '../../book/model/BookStatus';
 import { Separator } from '@shared/components/ui/separator';
 import SaveBook from './SaveBook';
 

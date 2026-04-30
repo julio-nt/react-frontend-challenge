@@ -1,10 +1,10 @@
 import { formatDate } from '@shared/util/date';
-import type { Book } from '../model/Book';
+import type { Book } from '../../book/model/Book';
 import { useState } from 'react';
 import { Button } from '@shared/components/ui/button';
 import SaveBook from './SaveBook';
 import { useBookshelfStore } from '../../../shared/store/bookshelf';
-import { BOOK_STATUS } from '../model/BookStatus';
+import { BOOK_STATUS } from '../../book/model/BookStatus';
 import { useIsMobile } from '@shared/hooks/use-mobile';
 import { useNavigation } from '@core/navigation';
 

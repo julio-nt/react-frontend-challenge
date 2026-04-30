@@ -1,5 +1,5 @@
-import type { Book } from '@modules/library/model/Book';
-import type { BookStatus } from '@modules/library/model/BookStatus';
+import type { Book } from '@modules/book/model/Book';
+import type { BookStatus } from '@modules/book/model/BookStatus';
 
 export interface BookshelfStore {
   bookshelf: Bookshelf;

@@ -1,6 +1,14 @@
 import { useNavigate } from '@tanstack/react-router';
 
-export type NavigationLinks = '/' | '/login' | '/cadastro' | '/estantes' | '/livro/$id';
+export type NavigationLinks =
+  | '/'
+  | '/login'
+  | '/cadastro'
+  | '/estantes'
+  | '/estantes?status=to_read'
+  | '/estantes?status=reading'
+  | '/estantes?status=read'
+  | '/livro/$id';
 
 export function useNavigation() {
   const navigate = useNavigate();

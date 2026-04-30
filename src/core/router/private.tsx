@@ -6,7 +6,7 @@ import { rootRoute } from './root';
 import type { SearchBookFilter } from '@modules/library/useCase/useSearchBook/interface';
 import BookShelfsPage from '@modules/bookshelf/pages/BookShelfs';
 import type { BookshelfListFilters } from '@modules/bookshelf/useCase/useUrlFilter/interface';
-import BookDetailsPage from '@modules/library/pages/BookDetails';
+import BookDetailsPage from '@modules/book/pages/BookDetails';
 
 const privateLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,

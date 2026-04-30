@@ -2,7 +2,7 @@ import { QueryKeys } from '@core/query/interface';
 import { useInfiniteQuery, type InfiniteData } from '@tanstack/react-query';
 import type { BookshelfListRequest } from './interface';
 import { useBookshelfStore } from '@shared/store/bookshelf';
-import type { Book } from '@modules/library/model/Book';
+import type { Book } from '@modules/book/model/Book';
 import { handleFiltering } from './helpers';
 
 const PAGE_SIZE = 10;

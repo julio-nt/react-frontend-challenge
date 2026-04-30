@@ -1,4 +1,4 @@
-import type { Book } from '@modules/library/model/Book';
+import type { Book } from '@modules/book/model/Book';
 
 export interface SaveBookRequest {
   book: Book;

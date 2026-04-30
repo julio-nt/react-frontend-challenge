@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { TableTanstack } from '@shared/components/ui/table';
 import { useNavigation } from '@core/navigation';
-import type { Book } from '@modules/library/model/Book';
-import SaveBook from '@modules/library/components/SaveBook';
+import type { Book } from '@modules/book/model/Book';
+import SaveBook from '@modules/book/components/SaveBook';
 import { useBookTable } from '@shared/hooks/use-book-table';
 
 const TableBookshelfList = ({ data }: { data: Book[] }) => {

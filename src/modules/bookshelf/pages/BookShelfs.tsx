@@ -6,9 +6,10 @@ import { BookDashed, List, Table } from 'lucide-react';
 import { useBookshelfList } from '../useCase/useBookshelfList';
 import { toast } from '@core/toast';
 import { useEffect } from 'react';
-import InfiniteScroll from '@modules/library/components/InfiniteScroll';
+import InfiniteScroll from '@shared/components/ui/InfiniteScroll';
 import LoadingBookshelf from '../components/LoadingBookshelf';
 import { useUrlFilter } from '../useCase/useUrlFilter';
+import { BOOK_STATUS } from '@modules/book/model/BookStatus';
 
 const Component = () => {
   const { layout, toggleLayout } = useThemeStore();
@@ -28,7 +29,19 @@ const Component = () => {
 
   return (
     <div className='space-y-4'>
-      <h1 className='text-2xl font-bold'>Minha Estante</h1>
+      <div>
+        <h1 className='text-2xl font-bold'>Minha Estante</h1>
+        {filters.status && (
+          <p className='text-lg font-semibold text-muted-foreground'>
+            {BOOK_STATUS[filters.status]}
+          </p>
+        )}
+        {data.length > 0 && (
+          <p className='text-sm text-muted-foreground'>
+            {data.length} {data.length === 1 ? 'livro' : 'livros'}
+          </p>
+        )}
+      </div>
 
       <Button onClick={() => toggleLayout(layout === 'grid' ? 'list' : 'grid')}>
         <IconToUse />

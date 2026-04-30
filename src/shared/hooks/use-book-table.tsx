@@ -1,9 +1,9 @@
-import type { Book } from '@modules/library/model/Book';
+import type { Book } from '@modules/book/model/Book';
 import { createColumnHelper } from '@tanstack/react-table';
 import { formatDate } from '@shared/util/date';
 import { getBookStatus } from '@shared/util/book';
 import { Search } from 'lucide-react';
-import { BOOK_STATUS, type BookStatus } from '@modules/library/model/BookStatus';
+import { BOOK_STATUS, type BookStatus } from '@modules/book/model/BookStatus';
 import { Button } from '@shared/components/ui/button';
 
 export function useBookTable({ onOpenSave }: { onOpenSave: (book: Book) => void }) {

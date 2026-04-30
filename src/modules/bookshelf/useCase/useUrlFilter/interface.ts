@@ -1,4 +1,4 @@
-import type { BookStatus } from '@modules/library/model/BookStatus';
+import type { BookStatus } from '@modules/book/model/BookStatus';
 
 export interface BookshelfListFilters {
   name?: string;

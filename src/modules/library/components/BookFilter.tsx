@@ -23,7 +23,7 @@ const BookFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean) => v
       inauthor: '',
       intitle: '',
       inpublisher: '',
-      maxResults: 20,
+      maxResults: 10,
       orderBy: 'relevance',
       printType: 'all',
     },
@@ -116,7 +116,6 @@ const BookFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean) => v
                 name='maxResults'
                 control={formFilter.control}
                 options={[
-                  { label: '5', value: 5 },
                   { label: '10', value: 10 },
                   { label: '15', value: 15 },
                   { label: '20', value: 20 },

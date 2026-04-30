@@ -7,7 +7,7 @@ import { useSearchBook } from '../useCase/useSearchBook';
 import { useUrlFilter } from '../useCase/useUrlFilter';
 import { useEffect } from 'react';
 import { toast } from '@core/toast';
-import InfiniteScroll from '../components/InfiniteScroll';
+import InfiniteScroll from '../../../shared/components/ui/InfiniteScroll';
 
 const Component = () => {
   const { layout, toggleLayout } = useThemeStore();

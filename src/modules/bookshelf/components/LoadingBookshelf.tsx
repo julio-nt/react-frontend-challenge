@@ -1,5 +1,5 @@
-import BookListSkeleton from '@modules/library/components/BookListSkeleton';
-import TableBookListSkeleton from '@modules/library/components/TableBookListSkeleton';
+import BookListSkeleton from '@modules/book/components/BookListSkeleton';
+import TableBookListSkeleton from '@modules/book/components/TableBookListSkeleton';
 
 const LoadingBookshelf = ({ layout }: { layout: 'grid' | 'list' }) => {
   if (layout === 'grid') {

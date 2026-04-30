@@ -1,5 +1,5 @@
 import { useCanGoBack, useParams } from '@tanstack/react-router';
-import { useBookById } from '../useCase/useBookById';
+import { useBookById } from '../../library/useCase/useBookById';
 import BookDetailSkeleton from '../components/BookDetailSkeleton';
 import { Button } from '@shared/components/ui/button';
 import { ArrowLeft } from 'lucide-react';

@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import type { RemoveBookRequest } from './interface';
 import Query from '@core/query';
 import { QueryKeys, type SetDataQuery } from '@core/query/interface';
-import type { Book } from '@modules/library/model/Book';
+import type { Book } from '@modules/book/model/Book';
 import { useUrlFilter } from '../useUrlFilter';
 
 export function useRemoveBook() {

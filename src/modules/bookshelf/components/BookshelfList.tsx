@@ -1,5 +1,5 @@
-import BookItem from '@modules/library/components/BookItem';
-import type { Book } from '@modules/library/model/Book';
+import BookItem from '@modules/book/components/BookItem';
+import type { Book } from '@modules/book/model/Book';
 
 const BookShelfList = ({ data }: { data: Book[] }) => {
   return (

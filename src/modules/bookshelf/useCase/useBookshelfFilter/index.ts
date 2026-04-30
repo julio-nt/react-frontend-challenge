@@ -9,7 +9,7 @@ export function useBookshelfFilter({
   dialogState,
   dialogStateMobile,
 }: BookshelfFilterProps) {
-  const { setFilters } = useUrlFilter();
+  const { filters, setFilters } = useUrlFilter();
 
   const debouncedName = useDebounce(formFilters.watch('name'), 500);
 
@@ -24,7 +24,7 @@ export function useBookshelfFilter({
     formFilters.setValue('status', '');
     formFilters.setValue('author', '');
     formFilters.setValue('publisher', '');
-    formFilters.setValue('maxResults', 20);
+    formFilters.setValue('maxResults', 10);
     formFilters.setValue('sortBy', 'title');
   }
 
@@ -34,6 +34,15 @@ export function useBookshelfFilter({
 
     setFilters({ name: debouncedName, ...values });
   }, [debouncedName]);
+
+  useEffect(() => {
+    formFilters.setValue('name', filters.name || '');
+    formFilters.setValue('status', filters.status || '');
+    formFilters.setValue('author', filters.author || '');
+    formFilters.setValue('publisher', filters.publisher || '');
+    formFilters.setValue('maxResults', filters.maxResults || 10);
+    formFilters.setValue('sortBy', filters.sortBy || 'title');
+  }, [filters]);
 
   return { handleSearch, handleClear };
 }

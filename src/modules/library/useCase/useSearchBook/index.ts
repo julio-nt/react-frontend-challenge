@@ -3,7 +3,7 @@ import type { SearchBookRequest, SearchBookResponse } from './interface';
 import HttpBookApi from '@core/http';
 import { QueryKeys } from '@core/query/interface';
 import { adapter } from './adapter';
-import type { PaginatedBook } from '@modules/library/model/Book';
+import type { PaginatedBook } from '@modules/book/model/Book';
 import { searchParamsToQuery } from './helpers';
 import { env } from '@shared/util/env';
 import { useMemo } from 'react';
@@ -33,9 +33,9 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
       const url = `${env.GOOGLE_BOOKS_API_URL}/volumes`;
       const params = new URLSearchParams();
 
-      params.append('startIndex', pageParam.toString());
-
       const newParams = searchParamsToQuery(params, filters);
+
+      params.append('startIndex', pageParam.toString());
 
       if (!newParams?.toString()) return null;
 

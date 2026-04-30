@@ -1,4 +1,4 @@
-import type { BookApi } from '@modules/library/model/BookApi';
+import type { BookApi } from '@modules/book/model/BookApi';
 
 export interface SearchBookRequest {
   skip?: boolean;

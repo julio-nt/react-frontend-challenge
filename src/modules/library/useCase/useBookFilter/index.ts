@@ -15,7 +15,7 @@ export function useBookFilter({ formFilter, setIsOpen, setIsOpenMobile }: BookFi
     formFilter.setValue('inauthor', '');
     formFilter.setValue('intitle', '');
     formFilter.setValue('inpublisher', '');
-    formFilter.setValue('maxResults', 20);
+    formFilter.setValue('maxResults', 10);
     formFilter.setValue('orderBy', 'relevance');
     formFilter.setValue('printType', 'all');
   }
@@ -52,7 +52,7 @@ export function useBookFilter({ formFilter, setIsOpen, setIsOpenMobile }: BookFi
     formFilter.setValue('inauthor', filters.inauthor || '');
     formFilter.setValue('intitle', filters.intitle || '');
     formFilter.setValue('inpublisher', filters.inpublisher || '');
-    formFilter.setValue('maxResults', filters.maxResults || 20);
+    formFilter.setValue('maxResults', filters.maxResults || 10);
     formFilter.setValue('orderBy', filters.orderBy || 'relevance');
     formFilter.setValue('printType', filters.printType || 'all');
   }, [filters]);

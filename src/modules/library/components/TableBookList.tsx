@@ -1,7 +1,7 @@
-import type { Book } from '../model/Book';
+import type { Book } from '../../book/model/Book';
 import { useState } from 'react';
-import TableBookListSkeleton from './TableBookListSkeleton';
-import SaveBook from './SaveBook';
+import TableBookListSkeleton from '../../book/components/TableBookListSkeleton';
+import SaveBook from '../../book/components/SaveBook';
 import { TableTanstack } from '@shared/components/ui/table';
 import { useNavigation } from '@core/navigation';
 import { useBookTable } from '@shared/hooks/use-book-table';

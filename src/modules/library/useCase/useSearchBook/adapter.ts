@@ -1,5 +1,5 @@
-import type { Book } from '@modules/library/model/Book';
-import type { BookApi } from '@modules/library/model/BookApi';
+import type { Book } from '@modules/book/model/Book';
+import type { BookApi } from '@modules/book/model/BookApi';
 import { normalizeDate } from '@shared/util/date';
 
 export function adapter(book: BookApi) {

@@ -2,7 +2,7 @@ import ControlledSelect from '@shared/components/controlled/ControlledSelect';
 import ControlledInput from '@shared/components/controlled/ControlledInput';
 import { useForm } from 'react-hook-form';
 import { useUrlFilter } from '../useCase/useUrlFilter';
-import { BOOK_STATUS } from '@modules/library/model/BookStatus';
+import { BOOK_STATUS } from '@modules/book/model/BookStatus';
 import { useState } from 'react';
 import type { BookshelfListFilters } from '../useCase/useUrlFilter/interface';
 import { Button } from '@shared/components/ui/button';
@@ -32,7 +32,7 @@ const BookshelfFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean)
       status: filters.status ?? '',
       author: filters.author ?? '',
       publisher: filters.publisher ?? '',
-      maxResults: filters.maxResults ?? 20,
+      maxResults: filters.maxResults ?? 10,
       sortBy: filters.sortBy ?? 'title',
     },
   });

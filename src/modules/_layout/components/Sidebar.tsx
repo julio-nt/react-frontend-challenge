@@ -7,11 +7,19 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
+  SidebarGroupLabel,
   SidebarHeader,
   useSidebar,
 } from '@shared/components/ui/sidebar';
 import { useLocation } from '@tanstack/react-router';
-import { Bookmark, BookSearch, SquareArrowRightExit } from 'lucide-react';
+import {
+  Book,
+  BookOpen,
+  BookOpenCheck,
+  BookSearch,
+  SquareArrowRightExit,
+  SquareLibrary,
+} from 'lucide-react';
 
 import logo from '/logo.png';
 
@@ -20,14 +28,16 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ user }: SidebarProps) => {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
+
+  const currentPathname = search?.status ? `${pathname}?status=${search?.status}` : pathname;
 
   const { goTo } = useNavigation();
   const { setOpenMobile, isMobile } = useSidebar();
 
   const { mutate: logout } = useLogout();
 
-  function handleItemClick(path: NavigationLinks) {
+  function handleItemClick(path: NavigationLinks | any) {
     goTo(path);
     if (isMobile) {
       setOpenMobile(false);
@@ -37,15 +47,41 @@ const Sidebar = ({ user }: SidebarProps) => {
   const sidebarItems = [
     {
       label: 'Descubra',
+      type: 'groupLabel',
+    },
+    {
+      label: 'Descubra',
       onClick: () => handleItemClick('/'),
       path: '/',
       icon: <BookSearch />,
     },
     {
-      label: 'Minha Estante',
+      label: 'Meus Livros',
+      type: 'groupLabel',
+    },
+    {
+      label: 'Todos',
       onClick: () => handleItemClick('/estantes'),
       path: '/estantes',
-      icon: <Bookmark />,
+      icon: <SquareLibrary />,
+    },
+    {
+      label: 'Quero Ler',
+      onClick: () => handleItemClick('/estantes?status=to_read'),
+      path: '/estantes?status=to_read',
+      icon: <Book />,
+    },
+    {
+      label: 'Lendo',
+      onClick: () => handleItemClick('/estantes?status=reading'),
+      path: '/estantes?status=reading',
+      icon: <BookOpen />,
+    },
+    {
+      label: 'Concluídos',
+      onClick: () => handleItemClick('/estantes?status=read'),
+      path: '/estantes?status=read',
+      icon: <BookOpenCheck />,
     },
   ];
 
@@ -64,12 +100,16 @@ const Sidebar = ({ user }: SidebarProps) => {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup className='space-y-2' title='Navegação'>
-          {sidebarItems.map((item) => {
-            const isActive = pathname === item.path;
+          {sidebarItems.map((item, index) => {
+            if (item.type === 'groupLabel') {
+              return <SidebarGroupLabel key={index}>{item.label}</SidebarGroupLabel>;
+            }
+
+            const isActive = currentPathname === item.path;
 
             return (
               <Button
-                key={item.label}
+                key={index}
                 variant='ghost'
                 className={`w-full justify-start gap-2 ${isActive ? 'bg-secondary' : ''}`}
                 onClick={item.onClick}

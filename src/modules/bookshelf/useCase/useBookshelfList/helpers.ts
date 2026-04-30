@@ -1,6 +1,6 @@
 import type { Bookshelf } from '@shared/store/bookshelf/interface';
 import type { BookshelfListFilters } from '../useUrlFilter/interface';
-import type { Book } from '@modules/library/model/Book';
+import type { Book } from '@modules/book/model/Book';
 
 function handleFiltering(data: Bookshelf, filters: BookshelfListFilters) {
   const { name, author, publisher, status, sortBy } = filters;

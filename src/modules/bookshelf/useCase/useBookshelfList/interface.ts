@@ -1,4 +1,4 @@
-import type { Book } from '@modules/library/model/Book';
+import type { Book } from '@modules/book/model/Book';
 import type { BookshelfListFilters } from '../useUrlFilter/interface';
 import type {
   FetchNextPageOptions,
@@ -12,7 +12,10 @@ export interface BookshelfListRequest {
 }
 
 export interface BookshelfListResponse {
-  data: Book[];
+  data: {
+    books: Book[]
+    totalItems: number;
+  };
   isLoading: boolean;
   error: Error | null;
   fetchNextPage: (

@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { BookStatus } from '../../../modules/library/model/BookStatus';
+import type { BookStatus } from '../../../modules/book/model/BookStatus';
 import type { BookshelfStore, RemoveBookshelfRequest, SaveBookshelfRequest } from './interface';
-import type { Book } from '@modules/library/model/Book';
+import type { Book } from '@modules/book/model/Book';
 
 export const useBookshelfStore = create<BookshelfStore>()(
   persist(

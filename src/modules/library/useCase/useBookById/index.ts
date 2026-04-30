@@ -1,7 +1,7 @@
 import HttpBookApi from '@core/http';
 import { useQuery } from '@tanstack/react-query';
 import { adapter } from '../useSearchBook/adapter';
-import type { BookApi } from '@modules/library/model/BookApi';
+import type { BookApi } from '@modules/book/model/BookApi';
 import { QueryKeys } from '@core/query/interface';
 import { env } from '@shared/util/env';
 

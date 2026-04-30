@@ -1,6 +1,6 @@
-import BookListSkeleton from './BookListSkeleton';
-import BookItem from './BookItem';
-import type { Book } from '../model/Book';
+import BookListSkeleton from '../../book/components/BookListSkeleton';
+import BookItem from '@modules/book/components/BookItem';
+import type { Book } from '../../book/model/Book';
 
 const BookList = ({ data, isLoading }: { data: Book[]; isLoading: boolean }) => {
   if (isLoading) {
