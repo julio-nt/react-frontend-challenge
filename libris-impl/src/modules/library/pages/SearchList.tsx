@@ -24,7 +24,7 @@ const Component = () => {
     }
   }, [error]);
 
-  if (!pagination.totalItems) {
+  if (!isLoading && data.length === 0) {
     return (
       <div className='flex flex-col items-center text-muted-foreground gap-4'>
         <Search size={48} />
@@ -38,6 +38,7 @@ const Component = () => {
       <Button onClick={() => toggleLayout(layout === 'grid' ? 'list' : 'grid')}>
         <IconToUse />
       </Button>
+
       <InfiniteScroll
         onLoadMore={pagination.fetchNextPage}
         hasMore={pagination.hasNextPage}

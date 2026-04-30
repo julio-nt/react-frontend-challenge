@@ -4,16 +4,16 @@ import TableBookshelfList from '../components/TableBookshelfList';
 import { useThemeStore } from '@shared/store/theme';
 import { BookDashed, List, Table } from 'lucide-react';
 import { useBookshelfList } from '../useCase/useBookshelfList';
-import { useSearchBookshelfStore } from '@shared/store/search-bookshelf';
 import { toast } from '@core/toast';
 import { useEffect } from 'react';
 import InfiniteScroll from '@modules/library/components/InfiniteScroll';
 import LoadingBookshelf from '../components/LoadingBookshelf';
+import { useUrlFilter } from '../useCase/useUrlFilter';
 
 const Component = () => {
   const { layout, toggleLayout } = useThemeStore();
 
-  const { filters } = useSearchBookshelfStore();
+  const { filters } = useUrlFilter();
 
   const IconToUse = layout === 'grid' ? Table : List;
 

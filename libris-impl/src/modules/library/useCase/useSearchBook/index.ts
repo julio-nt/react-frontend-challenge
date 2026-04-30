@@ -4,7 +4,6 @@ import HttpBookApi from '@core/http';
 import { QueryKeys } from '@core/query/interface';
 import { adapter } from './adapter';
 import type { PaginatedBook } from '@modules/library/model/Book';
-import { useSearchStore } from '@shared/store/search';
 import { searchParamsToQuery } from './helpers';
 import { env } from '@shared/util/env';
 import { useMemo } from 'react';
@@ -52,8 +51,6 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
         totalItems: response.totalItems,
         items: adaptedItems ?? [],
       };
-
-      useSearchStore.getState().saveSearch(filters);
 
       return adaptedResponse;
     },

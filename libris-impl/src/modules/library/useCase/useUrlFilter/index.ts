@@ -1,23 +1,18 @@
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import type { SearchBookFilter } from '../useSearchBook/interface';
-import { useSearchStore } from '@shared/store/search';
-import { useEffect } from 'react';
 
 export function useUrlFilter() {
-  const { filters: globalFilter } = useSearchStore();
-
-  const filters = useSearch({ from: '/private/' });
+  const filters = useSearch({ strict: false });
   const navigate = useNavigate({ from: '/' });
 
-  function setFilters() {
-    if (!globalFilter) return;
-
-    if (!globalFilter.q) {
+  function setFilters(newValues: Partial<SearchBookFilter>) {
+    if (!newValues.q) {
       navigate({
         search: {
-          maxResults: globalFilter.maxResults,
-          orderBy: globalFilter.orderBy,
-          printType: globalFilter.printType,
+          q: ' ',
+          maxResults: newValues.maxResults,
+          orderBy: newValues.orderBy,
+          printType: newValues.printType,
         },
       });
       return;
@@ -25,14 +20,10 @@ export function useUrlFilter() {
 
     navigate({
       search: (prev: SearchBookFilter) => {
-        return { ...prev, ...globalFilter };
+        return { ...prev, ...newValues };
       },
     });
   }
 
-  useEffect(() => {
-    setFilters();
-  }, [globalFilter]);
-
-  return { filters };
+  return { filters, setFilters };
 }

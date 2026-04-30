@@ -3,19 +3,14 @@ import BookItem from './BookItem';
 import type { Book } from '../model/Book';
 
 const BookList = ({ data, isLoading }: { data: Book[]; isLoading: boolean }) => {
+  if (isLoading) {
+    return <BookListSkeleton />;
+  }
   return (
-    <div>
-      {isLoading ? (
-        <div className='mt-6'>
-          <BookListSkeleton />
-        </div>
-      ) : (
-        <div className='flex flex-wrap gap-4'>
-          {data.map((book, i) => (
-            <BookItem key={`${i}-${book.id}`} book={book} />
-          ))}
-        </div>
-      )}
+    <div className='flex flex-wrap gap-4'>
+      {data.map((book, i) => (
+        <BookItem key={`${i}-${book.id}`} book={book} />
+      ))}
     </div>
   );
 };

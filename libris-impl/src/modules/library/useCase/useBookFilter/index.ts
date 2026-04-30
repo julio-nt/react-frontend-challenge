@@ -1,11 +1,11 @@
 import type { SearchBookFilter } from '../useSearchBook/interface';
 import { useDebounce } from '@shared/hooks/use-debounce';
-import { useSearchStore } from '@shared/store/search';
 import type { BookFilterProps } from './interface';
 import { useEffect } from 'react';
+import { useUrlFilter } from '../useUrlFilter';
 
-export function useBookFilter({ params, formFilter, setIsOpen, setIsOpenMobile }: BookFilterProps) {
-  const { saveSearch } = useSearchStore();
+export function useBookFilter({ formFilter, setIsOpen, setIsOpenMobile }: BookFilterProps) {
+  const { filters, setFilters } = useUrlFilter();
 
   const qValue = formFilter.watch('q');
 
@@ -29,7 +29,7 @@ export function useBookFilter({ params, formFilter, setIsOpen, setIsOpenMobile }
     const qToUse = debouncedQ || formFilter.getValues('q');
     const filters = formFilter.getValues();
 
-    saveSearch({
+    setFilters({
       ...filters,
       q: qToUse,
     });
@@ -44,7 +44,7 @@ export function useBookFilter({ params, formFilter, setIsOpen, setIsOpenMobile }
       return;
     }
 
-    saveSearch({
+    setFilters({
       ...values,
       q: values.q || ' ',
     });
@@ -56,14 +56,14 @@ export function useBookFilter({ params, formFilter, setIsOpen, setIsOpenMobile }
   }, [debouncedQ]);
 
   useEffect(() => {
-    formFilter.setValue('q', params.q || '');
-    formFilter.setValue('inauthor', params.inauthor || '');
-    formFilter.setValue('intitle', params.intitle || '');
-    formFilter.setValue('inpublisher', params.inpublisher || '');
-    formFilter.setValue('maxResults', params.maxResults || 20);
-    formFilter.setValue('orderBy', params.orderBy || 'relevance');
-    formFilter.setValue('printType', params.printType || 'all');
-  }, [params]);
+    formFilter.setValue('q', filters.q || '');
+    formFilter.setValue('inauthor', filters.inauthor || '');
+    formFilter.setValue('intitle', filters.intitle || '');
+    formFilter.setValue('inpublisher', filters.inpublisher || '');
+    formFilter.setValue('maxResults', filters.maxResults || 20);
+    formFilter.setValue('orderBy', filters.orderBy || 'relevance');
+    formFilter.setValue('printType', filters.printType || 'all');
+  }, [filters]);
 
   return {
     handleClear,

@@ -1,20 +1,20 @@
 import { useDebounce } from '@shared/hooks/use-debounce';
-import { useSearchBookshelfStore } from '@shared/store/search-bookshelf';
 import type { BookshelfListFilters } from '../useUrlFilter/interface';
 import { useEffect } from 'react';
 import type { BookshelfFilterProps } from './interface';
+import { useUrlFilter } from '../useUrlFilter';
 
 export function useBookshelfFilter({
   formFilters,
   dialogState,
   dialogStateMobile,
 }: BookshelfFilterProps) {
-  const { saveSearchBookshelf } = useSearchBookshelfStore();
+  const { setFilters } = useUrlFilter();
 
   const debouncedName = useDebounce(formFilters.watch('name'), 500);
 
   function handleSearch(values: BookshelfListFilters) {
-    saveSearchBookshelf(values);
+    setFilters(values);
     dialogState.setIsOpen(false);
     dialogStateMobile.setIsOpen(false);
   }
@@ -32,7 +32,7 @@ export function useBookshelfFilter({
     if (dialogState.isOpen) return;
     const values = formFilters.getValues();
 
-    saveSearchBookshelf({ name: debouncedName, ...values });
+    setFilters({ name: debouncedName, ...values });
   }, [debouncedName]);
 
   return { handleSearch, handleClear };

@@ -12,30 +12,24 @@ import { CircleX, Search } from 'lucide-react';
 import { Button } from '@shared/components/ui/button';
 import { useState } from 'react';
 import ControlledSelect from '@shared/components/controlled/ControlledSelect';
-import { useSearch } from '@tanstack/react-router';
 import { useBookFilter } from '../useCase/useBookFilter';
 
 const BookFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean) => void }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const params: SearchBookFilter = useSearch({
-    strict: false,
-  });
-
   const formFilter = useForm<SearchBookFilter>({
     defaultValues: {
-      q: params.q || '',
-      inauthor: params.inauthor || '',
-      intitle: params.intitle || '',
-      inpublisher: params.inpublisher || '',
-      maxResults: params.maxResults || 20,
-      orderBy: params.orderBy || 'relevance',
-      printType: params.printType || 'all',
+      q: '',
+      inauthor: '',
+      intitle: '',
+      inpublisher: '',
+      maxResults: 20,
+      orderBy: 'relevance',
+      printType: 'all',
     },
   });
 
   const { handleClear, handleClearAll, handleSearch, handleDetailedSearch } = useBookFilter({
-    params,
     formFilter,
     setIsOpen,
     setIsOpenMobile,
