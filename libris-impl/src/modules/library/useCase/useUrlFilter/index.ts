@@ -9,7 +9,7 @@ export function useUrlFilter() {
     if (!newValues.q) {
       navigate({
         search: {
-          q: ' ',
+          q: '',
           maxResults: newValues.maxResults,
           orderBy: newValues.orderBy,
           printType: newValues.printType,

@@ -3,9 +3,9 @@ import type { SearchBookRequest } from './interface';
 const PAGE_SIZE = 20;
 
 function searchParamsToQuery(params: URLSearchParams, filters: SearchBookRequest['filters']) {
-  if (!filters) return;
+  if (!filters || !filters.q) return null;
 
-  let extraParams = filters.q;
+  let extraParams = filters.q || '';
 
   if (filters.intitle) extraParams += `+intitle:${filters.intitle}`;
   if (filters.inauthor) extraParams += `+inauthor:${filters.inauthor}`;

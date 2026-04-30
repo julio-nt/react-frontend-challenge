@@ -26,8 +26,9 @@ export function useBookFilter({ formFilter, setIsOpen, setIsOpenMobile }: BookFi
   }
 
   function handleSearch() {
-    const qToUse = debouncedQ || formFilter.getValues('q');
     const filters = formFilter.getValues();
+
+    const qToUse = debouncedQ || filters.q;
 
     setFilters({
       ...filters,
@@ -37,18 +38,14 @@ export function useBookFilter({ formFilter, setIsOpen, setIsOpenMobile }: BookFi
   }
 
   function handleDetailedSearch(values: SearchBookFilter) {
-    setIsOpenMobile(false);
-
     if (!values.intitle && !values.inauthor && !values.inpublisher) {
       handleSearch();
       return;
     }
 
-    setFilters({
-      ...values,
-      q: values.q || ' ',
-    });
+    setFilters(values);
     setIsOpen(false);
+    setIsOpenMobile(false);
   }
 
   useEffect(() => {

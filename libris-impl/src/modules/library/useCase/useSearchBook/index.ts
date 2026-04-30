@@ -17,7 +17,7 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
     number
   >({
     queryKey: [QueryKeys.SEARCH_BOOK_LIST, filters],
-    enabled: !skip && !!filters?.q,
+    enabled: !skip,
     refetchOnWindowFocus: false,
     retry: false,
     initialPageParam: 0,
@@ -30,14 +30,14 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
     },
 
     queryFn: async ({ pageParam }) => {
-      if (!filters?.q) return null;
-
       const url = `${env.GOOGLE_BOOKS_API_URL}/volumes`;
       const params = new URLSearchParams();
 
       params.append('startIndex', pageParam.toString());
 
       const newParams = searchParamsToQuery(params, filters);
+
+      if (!newParams?.toString()) return null;
 
       const response = await HttpBookApi.get<SearchBookResponse>(url, newParams);
 

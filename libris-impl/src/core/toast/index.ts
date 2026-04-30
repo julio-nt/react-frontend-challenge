@@ -6,6 +6,7 @@ export const toast = {
       description: options?.description,
       position: 'top-right',
       style: { backgroundColor: '#4BB543', color: '#fff' },
+      closeButton: true,
     });
   },
 
@@ -14,6 +15,7 @@ export const toast = {
       description: options?.description,
       position: 'top-right',
       style: { backgroundColor: '#FF4C4C', color: '#fff' },
+      closeButton: true,
     });
   },
 };
