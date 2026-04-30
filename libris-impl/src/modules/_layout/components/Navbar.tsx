@@ -27,6 +27,8 @@ const Navbar = () => {
 
   const IconThemeToUse = isDarkMode ? Sun : Moon;
 
+  const FilterToUse = pathname === '/' ? BookFilter : BookshelfFilter;
+
   return (
     <>
       <nav
@@ -41,8 +43,7 @@ const Navbar = () => {
           </Button>
         ) : (
           <>
-            {pathname === '/' && <BookFilter setIsOpenMobile={setIsOpenDialog} />}
-            {pathname === '/estantes' && <BookshelfFilter setIsOpenMobile={setIsOpenDialog} />}
+            <FilterToUse setIsOpenMobile={setIsOpenDialog} />
           </>
         )}
 
@@ -55,8 +56,7 @@ const Navbar = () => {
             <DialogTitle>Buscar Livros</DialogTitle>
           </DialogHeader>
 
-          {pathname === '/' && <BookFilter setIsOpenMobile={setIsOpenDialog} />}
-          {pathname === '/estantes' && <BookshelfFilter setIsOpenMobile={setIsOpenDialog} />}
+          <FilterToUse setIsOpenMobile={setIsOpenDialog} />
         </DialogContent>
       </Dialog>
     </>
