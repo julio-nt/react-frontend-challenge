@@ -17,14 +17,11 @@ Antes de iniciar, você precisará de:
 - **Node.js** (versão recomendada: 18+)
 - Uma **chave de API do Google** com permissão para a [Google Books API](https://developers.google.com/books/docs/v1/getting_started)
 
-
 ## Configurando o projeto antes de iniciar
 
-1. Copie o arquivo ``.env.example`` e renomeie a copia apenas ``.env``
+1. Copie o arquivo `.env.example` e renomeie a copia apenas `.env`
 
-
-2. Insira em ``VITE_GOOGLE_BOOKS_API_KEY`` uma chave API google com permissão para utilizar **Google Books API**
-
+2. Insira em `VITE_GOOGLE_BOOKS_API_KEY` uma chave API google com permissão para utilizar **Google Books API**
 
 ## Rodando o projeto
 
@@ -36,4 +33,8 @@ npm install
 npm run dev
 ```
 
-Acesse em ``http://localhost:5173``
+## Guia de uso
+
+É necessário cadastrar uma conta ao acessar
+
+Acesse em `http://localhost:5173`
