@@ -22,13 +22,16 @@ const Component = () => {
 
   const {
     data,
+    totalItems,
     isLoading,
     error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isRefetching,
   } = useBookshelfList({ filters });
 
+  const isLoadingAll = isLoading || isRefetching;
 
   useEffect(() => {
     if (error) {
@@ -45,9 +48,9 @@ const Component = () => {
             {BOOK_STATUS[filters.status]}
           </p>
         )}
-        {data.length && data.length > 0 && !isLoading && (
+        {totalItems > 0 && !isLoadingAll && (
           <p className='text-sm text-muted-foreground'>
-            {data.length} {data.length === 1 ? 'livro' : 'livros'}
+            {totalItems} {totalItems === 1 ? 'livro' : 'livros'}
           </p>
         )}
       </div>
@@ -56,9 +59,9 @@ const Component = () => {
         <IconToUse />
       </Button>
 
-      {isLoading && <LoadingBookshelf layout={layout} />}
+      {isLoadingAll && <LoadingBookshelf layout={layout} />}
 
-      {!isLoading && data.length === 0 && (
+      {!isLoadingAll && data.length === 0 && (
         <div className='flex flex-col items-center text-muted-foreground gap-4 mt-8'>
           <BookDashed size={48} />
           <p>Nenhum livro salvo na estante, adicione livros para vê-los aqui.</p>
@@ -68,7 +71,7 @@ const Component = () => {
         </div>
       )}
 
-      {!isLoading && data.length > 0 && (
+      {!isLoadingAll && data.length > 0 && (
         <InfiniteScroll
           onLoadMore={fetchNextPage}
           hasMore={hasNextPage}
