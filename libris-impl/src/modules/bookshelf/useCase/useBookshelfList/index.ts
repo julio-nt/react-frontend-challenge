@@ -14,7 +14,7 @@ export function useBookshelfList({ skip, filters }: BookshelfListRequest) {
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
       const loadedCount = allPages.reduce((acc, page) => acc + page.length, 0);
-      if (lastPage.length < PAGE_SIZE) return undefined;
+      if (lastPage.length < (filters?.maxResults || PAGE_SIZE)) return undefined;
       return loadedCount;
     },
     queryFn: async ({ pageParam }) => {
@@ -24,7 +24,7 @@ export function useBookshelfList({ skip, filters }: BookshelfListRequest) {
 
         const allFiltered = handleFiltering(bookshelf, filters || {});
 
-        return allFiltered.slice(pageParam, pageParam + PAGE_SIZE);
+        return allFiltered.slice(pageParam, pageParam + (filters?.maxResults || PAGE_SIZE));
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
         throw new Error(`Erro ao buscar estantes: ${errorMessage}`);

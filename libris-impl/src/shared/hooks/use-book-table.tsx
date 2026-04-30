@@ -11,6 +11,14 @@ export function useBookTable({ onOpenSave }: { onOpenSave: (book: Book) => void 
 
   const columns = [
     columnHelper.display({
+      id: 'index',
+      header: '#',
+      size: 40,
+      cell: (props) => {
+        return <span className='text-sm text-muted-foreground'>{props.row.index + 1}</span>;
+      },
+    }),
+    columnHelper.display({
       id: 'cover',
       header: '',
       size: 64,

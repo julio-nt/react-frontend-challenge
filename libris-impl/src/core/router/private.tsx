@@ -35,6 +35,10 @@ const bookshelfRoute = createRoute({
   component: BookShelfsPage.Component,
   validateSearch: (search): BookshelfListFilters => ({
     name: search.name as string | undefined,
+    author: search.author as string | undefined,
+    publisher: search.publisher as string | undefined,
+    sortBy: search.sortBy as BookshelfListFilters['sortBy'],
+    maxResults: search.maxResults ? Number(search.maxResults) : undefined,
     status: search.status as BookshelfListFilters['status'],
   }),
 });
