@@ -43,3 +43,5 @@ modules/<feature>/
 **`orderBy` sem efeito** — O parâmetro de ordenação não produz diferença perceptível nos resultados. Foi mantido na interface por ser um requisito, mas documentado como limitação da API.
 
 **Dados incompletos** — Muitos livros retornam sem capa, sinopse, autores, editora e até titulo. Todos os campos opcionais do modelo `Book` são tratados defensivamente, com fallbacks visuais para evitar erros de renderização.
+
+**Erro 503 (serviço indisponível)** — As vezes a API retorna o erro de que o serviço está temporáriamente indisponível para buscas válidas. Foi utilizado `retry` no useCase de search para garantir que o usuário receba o resultado.

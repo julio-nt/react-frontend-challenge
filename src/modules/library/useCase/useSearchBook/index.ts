@@ -19,7 +19,6 @@ export function useSearchBook({ skip, filters }: SearchBookRequest) {
     queryKey: [QueryKeys.SEARCH_BOOK_LIST, filters],
     enabled: !skip,
     refetchOnWindowFocus: false,
-    retry: false,
     initialPageParam: 0,
 
     getNextPageParam: (lastPage, allPages) => {

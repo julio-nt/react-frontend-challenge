@@ -18,4 +18,13 @@ export const toast = {
       closeButton: true,
     });
   },
+
+  warning(message: string, options?: { description?: string }) {
+    SonnerToast.warning(message, {
+      description: options?.description,
+      position: 'top-right',
+      style: { backgroundColor: '#FFCC00', color: '#fff' },
+      closeButton: true,
+    });
+  },
 };
