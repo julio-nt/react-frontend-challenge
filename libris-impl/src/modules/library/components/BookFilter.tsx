@@ -8,7 +8,7 @@ import {
 import { useForm } from 'react-hook-form';
 import type { SearchBookFilter } from '../useCase/useSearchBook/interface';
 import ControlledInput from '@shared/components/controlled/ControlledInput';
-import { CircleX, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Button } from '@shared/components/ui/button';
 import { useState } from 'react';
 import ControlledSelect from '@shared/components/controlled/ControlledSelect';
@@ -29,7 +29,7 @@ const BookFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean) => v
     },
   });
 
-  const { handleClear, handleClearAll, handleSearch, handleDetailedSearch } = useBookFilter({
+  const { handleClear, handleSearch, handleDetailedSearch } = useBookFilter({
     formFilter,
     setIsOpen,
     setIsOpenMobile,
@@ -46,14 +46,6 @@ const BookFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean) => v
               onClick={() => handleSearch()}
             >
               <Search size={16} />
-            </Button>
-
-            <Button
-              variant={'secondary'}
-              className='w-16 rounded-r-none rounded-l-none'
-              onClick={() => handleClearAll()}
-            >
-              <CircleX size={16} />
             </Button>
 
             <Button

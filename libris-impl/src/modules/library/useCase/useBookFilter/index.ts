@@ -20,11 +20,6 @@ export function useBookFilter({ formFilter, setIsOpen, setIsOpenMobile }: BookFi
     formFilter.setValue('printType', 'all');
   }
 
-  function handleClearAll() {
-    formFilter.setValue('q', '');
-    handleClear();
-  }
-
   function handleSearch() {
     const filters = formFilter.getValues();
 
@@ -64,8 +59,6 @@ export function useBookFilter({ formFilter, setIsOpen, setIsOpenMobile }: BookFi
 
   return {
     handleClear,
-    handleClearAll,
-    debouncedQ,
     handleSearch,
     handleDetailedSearch,
   };

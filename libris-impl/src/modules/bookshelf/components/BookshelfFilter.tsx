@@ -48,7 +48,7 @@ const BookshelfFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean)
       <div className='relative w-full '>
         <div className='absolute right-0 bottom-0 flex'>
           <Button
-            variant={'outline'}
+            variant={'secondary'}
             className='w-16 rounded-r-none rounded-l-none'
             onClick={() => handleSearch(formFilters.getValues())}
           >
@@ -65,7 +65,7 @@ const BookshelfFilter = ({ setIsOpenMobile }: { setIsOpenMobile: (open: boolean)
         </div>
 
         <ControlledInput
-          placeholder='Busque por um titulo na sua estante...'
+          placeholder='Faça uma busca...'
           name='name'
           control={formFilters.control}
         />
