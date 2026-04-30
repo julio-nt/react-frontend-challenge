@@ -1,48 +1,41 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { BookStatus } from '../../../modules/book/model/BookStatus';
 import type { BookshelfStore, RemoveBookshelfRequest, SaveBookshelfRequest } from './interface';
-import type { Book } from '@modules/book/model/Book';
 
 export const useBookshelfStore = create<BookshelfStore>()(
   persist(
     (set, get) => {
       function save({ book, status }: SaveBookshelfRequest) {
         const bookshelf = get().bookshelf;
-        const currentBookShelf = Object.entries(bookshelf).find(([, books]) =>
-          books.some((b: Book) => b.id === book.id)
-        );
 
-        set((state) => {
-          const newBookshelf = { ...state.bookshelf };
+        const existingBookIndex = bookshelf.findIndex((b) => b.id === book.id);
 
-          if (currentBookShelf) {
-            const [key] = currentBookShelf;
-            newBookshelf[key as BookStatus] = newBookshelf[key as BookStatus].filter(
-              (b) => b.id !== book.id
-            );
-          }
+        if (existingBookIndex === -1) {
+          const newBook = { ...book, status };
+          set(() => ({
+            bookshelf: [...bookshelf, newBook],
+          }));
+          return;
+        }
 
-          newBookshelf[status] = [...newBookshelf[status], book];
+        const updatedShelf = bookshelf.map((b) => (b.id === book.id ? { ...b, status } : b));
 
-          return { bookshelf: newBookshelf };
+        set(() => {
+          return { bookshelf: updatedShelf };
         });
       }
 
-      function remove({ bookId, status }: RemoveBookshelfRequest) {
-        const currentShelf = get().bookshelf?.[status] ?? [];
+      function remove({ bookId }: RemoveBookshelfRequest) {
+        const bookshelf = get().bookshelf;
 
-        const updatedShelf = currentShelf.filter((b) => b.id !== bookId);
+        const updatedShelf = bookshelf.filter((b) => b.id !== bookId);
 
-        set((state) => ({
-          bookshelf: {
-            ...state.bookshelf,
-            [status]: updatedShelf,
-          },
+        set(() => ({
+          bookshelf: updatedShelf,
         }));
       }
 
-      return { bookshelf: { to_read: [], reading: [], read: [] }, save, remove };
+      return { bookshelf: [], save, remove };
     },
     { name: 'bookshelf-store' }
   )

@@ -13,13 +13,8 @@ const BookDetail = ({ book }: { book: Book }) => {
 
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
 
-  const currentShelf = bookshelf.to_read.find((b) => b.id === book?.id)
-    ? 'to_read'
-    : bookshelf.reading.find((b) => b.id === book?.id)
-      ? 'reading'
-      : bookshelf.read.find((b) => b.id === book?.id)
-        ? 'read'
-        : null;
+  const currentSanvedBook = bookshelf.find((b) => b.id === book.id);
+  const currentShelf = currentSanvedBook?.status;
 
   const { volumeInfo } = book;
 
@@ -112,11 +107,7 @@ const BookDetail = ({ book }: { book: Book }) => {
         </>
       )}
 
-      <SaveBook
-        book={book}
-        isOpen={isSaveDialogOpen}
-        setIsOpen={setIsSaveDialogOpen}
-      />
+      <SaveBook book={book} isOpen={isSaveDialogOpen} setIsOpen={setIsSaveDialogOpen} />
     </>
   );
 };

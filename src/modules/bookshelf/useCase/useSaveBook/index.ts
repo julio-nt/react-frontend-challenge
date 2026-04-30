@@ -17,6 +17,8 @@ export function useSaveBook() {
     mutationFn: async ({ book, status }: SaveBookRequest) => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
+      save({ book, status });
+
       const chachedBookshelfList = Query.getData([QueryKeys.BOOKSHELF_LIST, filters]);
 
       if (!chachedBookshelfList) {
@@ -34,7 +36,24 @@ export function useSaveBook() {
         });
       }
 
-      save({ book, status });
+      const newQueryFilterKey = {
+        ...filters,
+        status,
+      };
+
+      const updateNewQuery = Query.getData([QueryKeys.BOOKSHELF_LIST, newQueryFilterKey]);
+
+      if (updateNewQuery) {
+        Query.setData<SetDataQuery<Book[]>>(
+          [QueryKeys.BOOKSHELF_LIST, newQueryFilterKey],
+          (prev) => {
+            if (!prev) return prev;
+            const updatedBooks = [book, ...prev.pages[0]];
+
+            return { ...prev, pages: [updatedBooks] };
+          }
+        );
+      }
     },
   });
 

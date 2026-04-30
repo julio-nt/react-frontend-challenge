@@ -41,5 +41,7 @@ export function useBookshelfList({ skip, filters }: BookshelfListRequest) {
     fetchNextPage: query.fetchNextPage,
     hasNextPage: query.hasNextPage,
     isFetchingNextPage: query.isFetchingNextPage,
+    refetch: query.refetch,
+    isRefetching: query.isRefetching,
   };
 }

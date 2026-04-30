@@ -2,9 +2,9 @@ import type { Book } from '@modules/book/model/Book';
 import type { BookStatus } from '@modules/book/model/BookStatus';
 
 export interface BookshelfStore {
-  bookshelf: Bookshelf;
+  bookshelf: Book[];
   save: ({ book, status }: { book: Book; status: BookStatus }) => void;
-  remove: ({ bookId, status }: { bookId: string; status: BookStatus }) => void;
+  remove: ({ bookId }: { bookId: string }) => void;
 }
 
 export interface SaveBookshelfRequest {
@@ -14,7 +14,6 @@ export interface SaveBookshelfRequest {
 
 export interface RemoveBookshelfRequest {
   bookId: string;
-  status: BookStatus;
 }
 
 export interface Bookshelf {

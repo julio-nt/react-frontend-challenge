@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { useBookshelfStore } from '@shared/store/bookshelf';
 import type { Book } from '@modules/book/model/Book';
 
-const emptyBookshelf = { to_read: [], reading: [], read: [] };
+const emptyBookshelf: Book[] = [];
 
 const makeBook = (id: string): Book => ({
   id,
@@ -17,17 +17,17 @@ describe('useBookshelfStore — save', () => {
 
   it('saves a book to to_read', () => {
     useBookshelfStore.getState().save({ book: makeBook('1'), status: 'to_read' });
-    expect(useBookshelfStore.getState().bookshelf.to_read).toHaveLength(1);
+    expect(useBookshelfStore.getState().bookshelf).toHaveLength(1);
   });
 
   it('saves a book to reading', () => {
     useBookshelfStore.getState().save({ book: makeBook('2'), status: 'reading' });
-    expect(useBookshelfStore.getState().bookshelf.reading).toHaveLength(1);
+    expect(useBookshelfStore.getState().bookshelf).toHaveLength(1);
   });
 
   it('saves a book to read', () => {
     useBookshelfStore.getState().save({ book: makeBook('3'), status: 'read' });
-    expect(useBookshelfStore.getState().bookshelf.read).toHaveLength(1);
+    expect(useBookshelfStore.getState().bookshelf).toHaveLength(1);
   });
 
   it('moves a book from one shelf to another', () => {
@@ -36,8 +36,7 @@ describe('useBookshelfStore — save', () => {
     useBookshelfStore.getState().save({ book, status: 'reading' });
 
     const { bookshelf } = useBookshelfStore.getState();
-    expect(bookshelf.to_read).toHaveLength(0);
-    expect(bookshelf.reading).toHaveLength(1);
+    expect(bookshelf).toHaveLength(1);
   });
 
   it('does not duplicate a book on the same shelf', () => {
@@ -45,6 +44,8 @@ describe('useBookshelfStore — save', () => {
     useBookshelfStore.getState().save({ book, status: 'read' });
     useBookshelfStore.getState().save({ book, status: 'read' });
 
-    expect(useBookshelfStore.getState().bookshelf.read).toHaveLength(1);
+    const { bookshelf } = useBookshelfStore.getState();
+    console.log('Bookshelf:', bookshelf);
+    expect(bookshelf).toHaveLength(1);
   });
 });

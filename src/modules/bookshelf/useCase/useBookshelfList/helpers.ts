@@ -1,11 +1,10 @@
-import type { Bookshelf } from '@shared/store/bookshelf/interface';
 import type { BookshelfListFilters } from '../useUrlFilter/interface';
 import type { Book } from '@modules/book/model/Book';
 
-function handleFiltering(data: Bookshelf, filters: BookshelfListFilters) {
+function handleFiltering(data: Book[], filters: BookshelfListFilters) {
   const { name, author, publisher, status, sortBy } = filters;
 
-  const source: Book[] = status ? data[status] : Object.values(data).flat();
+  const source: Book[] = status ? data.filter((b) => b.status === status) : data;
 
   let filteredResult: Book[] = source;
 

@@ -19,8 +19,9 @@ export const toast = {
     });
   },
 
-  warning(message: string, options?: { description?: string }) {
+  warning(message: string, options?: { description?: string, id?: string }) {
     SonnerToast.warning(message, {
+      id: options?.id,
       description: options?.description,
       position: 'top-right',
       style: { backgroundColor: '#FFCC00', color: '#fff' },

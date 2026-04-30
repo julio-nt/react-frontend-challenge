@@ -22,13 +22,8 @@ const BookItem = ({ book }: BookItemProps) => {
   const [isOnFocus, setIsOnFocus] = useState(false);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
 
-  const currentShelf = bookshelf.to_read.find((b) => b.id === book.id)
-    ? 'to_read'
-    : bookshelf.reading.find((b) => b.id === book.id)
-      ? 'reading'
-      : bookshelf.read.find((b) => b.id === book.id)
-        ? 'read'
-        : null;
+  const currentSanvedBook = bookshelf.find((b) => b.id === book.id);
+  const currentShelf = currentSanvedBook?.status;
 
   const bookTitle = book.volumeInfo.title
     ? book.volumeInfo.title.length > 40

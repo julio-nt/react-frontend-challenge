@@ -20,7 +20,9 @@ const Component = () => {
 
   useEffect(() => {
     if (error) {
-      toast.warning('Ocorreu um erro ao buscar os livros. Por favor, tente novamente.');
+      toast.warning('Ops, não foi possível buscar os livros. Por favor, tente novamente.', {
+        id: 'search-error',
+      });
     }
   }, [error]);
 

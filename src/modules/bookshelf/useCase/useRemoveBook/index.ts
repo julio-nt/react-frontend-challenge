@@ -11,10 +11,10 @@ export function useRemoveBook() {
   const { remove } = useBookshelfStore();
 
   const mutation = useMutation({
-    mutationFn: async ({ bookId, status }: RemoveBookRequest) => {
+    mutationFn: async ({ bookId }: RemoveBookRequest) => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      remove({ bookId, status });
+      remove({ bookId });
 
       const chachedBookshelfList = Query.getData([QueryKeys.BOOKSHELF_LIST, filters]);
 
