@@ -32,7 +32,7 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`fixed bg-background flex items-center justify-between gap-4 w-full h-16 border-b px-4 ${open ? 'md:pl-68' : ''} transition-all`}
+        className={`fixed z-[9] bg-background flex items-center justify-between gap-4 w-full h-16 border-b px-4 ${open ? 'md:pl-68' : ''} transition-all`}
       >
         <SidebarTrigger />
 
